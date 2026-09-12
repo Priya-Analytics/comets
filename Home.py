@@ -3,13 +3,12 @@ import pandas as pd
 import random
 from datetime import datetime
 
-# Set Page Config with custom tabs
-st.set_page_config(page_title="comets | Infinite Space Hub", layout="wide", page_icon="☄️")
+# ☄️ Force wide page matrix config layout
+st.set_page_config(page_title="comets | Space Logistics Hub", layout="wide", page_icon="☄️")
 
-# ☄️ ADVANCED STRUCTURAL GLASSMORPHIC DARK SPACE GRAPHICS LAYOUT
+# 🌌 COGNITIVE SPACE COMPONENT BLOCKS OVERLAY STYLES
 st.markdown("""
 <style>
-    /* Reset app background to transparent so JavaScript stars shine through cleanly */
     .stApp {
         background: transparent !important;
     }
@@ -17,7 +16,7 @@ st.markdown("""
         background-color: #020306 !important;
     }
     
-    /* 🛠️ REDUCE LEFT SIDEBAR FOOTPRINT WIDTH */
+    /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH */
     [data-testid="stSidebar"] {
         min-width: 190px !important;
         max-width: 230px !important;
@@ -25,7 +24,7 @@ st.markdown("""
         border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
     
-    /* Container for the Decrypted CEO directive terminal box */
+    /* Glowing container for the Hidden CEO terminal */
     .ceo-terminal {
         background: rgba(11, 19, 43, 0.65) !important;
         border: 1px solid rgba(56, 189, 248, 0.25) !important;
@@ -56,7 +55,6 @@ st.markdown("""
         border-left: 3px solid #F43F5E;
         padding-left: 15px;
         margin: 15px 0;
-        text-shadow: 0 0 8px rgba(248,250,252,0.15);
     }
 
     /* Right widget side container panels */
@@ -108,7 +106,6 @@ st.components.v1.html("""
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Generate an even heavier cosmic matrix background of 400 deep sky stars
     const stars = [];
     for(let i = 0; i < 400; i++) {
         stars.push({
@@ -119,7 +116,6 @@ st.components.v1.html("""
         });
     }
 
-    // Active comet falling trail generator variables
     let comets = [
         { x: Math.random() * canvas.width, y: -50, speedX: -6, speedY: 6, length: 150, color: '#38BDF8' },
         { x: Math.random() * canvas.width + 300, y: -50, speedX: -8, speedY: 8, length: 110, color: '#F43F5E' },
@@ -130,7 +126,6 @@ st.components.v1.html("""
         ctx.fillStyle = '#020306';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw and twinkle space stars background
         for(let star of stars) {
             ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
             ctx.beginPath();
@@ -141,7 +136,6 @@ st.components.v1.html("""
             if(star.opacity > 1) star.opacity = 1;
         }
 
-        // Render real falling comets tracking lines with gradient particle tails
         for(let comet of comets) {
             let gradient = ctx.createLinearGradient(comet.x, comet.y, comet.x - comet.speedX * 15, comet.y - comet.speedY * 15);
             gradient.addColorStop(0, '#FFFFFF');
@@ -170,7 +164,7 @@ st.components.v1.html("""
 </script>
 """, height=0, scrolling=False)
 
-# 🔒 ROBUST PASSWORD GATE CHECKS
+# 🔒 ROBUST SECURITY LAYER CHECKS
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
@@ -205,22 +199,16 @@ def check_password():
     return False
 
 if check_password():
-    # Cleaned Sidebar layout containing your document uploader dropzone box
+    # Left Sidebar Panel layout configuration
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown("---")
-    
-    uploaded_file = st.sidebar.file_uploader(
-        label="", 
-        type=["csv", "xlsx"],
-        label_visibility="collapsed"
-    )
-    
+    uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
     st.sidebar.markdown("---")
     if st.sidebar.button("🔒 Secure Terminal / Log Out", use_container_width=True):
         st.session_state["authenticated"] = False
         st.rerun()
 
-    # 🛠️ ASYMMETRIC SYSTEM STRUCTURE LAYOUT COLUMNS
+    # 🛠️ ASYMMETRIC GRID DESIGN INTERFACES
     main_left_col, right_panel_col = st.columns([0.70, 0.30], gap="large")
 
     with main_left_col:
@@ -230,37 +218,16 @@ if check_password():
 
         if uploaded_file is not None:
             try:
-                if uploaded_file.name.endswith('.csv'):
-                    custom_df = pd.read_csv(uploaded_file)
-                else:
-                    custom_df = pd.read_excel(uploaded_file)
-                    
+                custom_df = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
                 st.markdown(f"### 📂 Active Scratchpad Data: `{uploaded_file.name}`")
                 st.dataframe(custom_df, use_container_width=True)
-                
-                st.markdown("### 🐍 Python Execution Terminal (Uploaded Sheet Context)")
-                custom_code = st.text_area(
-                    "Write data manipulation code here (use `custom_df` variable):", 
-                    value="# Basic description statistics example\nst.write(custom_df.describe())"
-                )
+                custom_code = st.text_area("Python Script Box:", value="st.write(custom_df.describe())")
                 if st.button("Execute Upload Logic Stream"):
                     exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
                 st.markdown("---")
-                
-            except Exception as e:
-                st.error(f"Failed to process spreadsheet file: {e}")
+            except Exception as e: st.error(f"Failed to process file: {e}")
 
-               # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA
-        st.markdown("""
-        <div class="ceo-terminal">
-            <div class="ceo-title">🔒 RESTRICTED DIRECTIVE: ENCRYPTED EXECUTIVE LOGS</div>
-            <p style="color: #94A3B8; font-size: 13px; margin-bottom: 15px;">
-                Intercepting internal quantum channels. Strategic directives for comets network nodes are buffered below.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # 📝 CEO Directive Dataset Array Matrix
+               # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA (CONTINUED)
         ceo_quotes = [
             '"In global logistics, a delay in transit isn\'t a resource shortage—it\'s an information asymmetry problem. Optimize visibility, and speed takes care of itself." — Chief Executive Officer',
             '"The comets network doesn\'t build traditional tracks; we build resilient, self-healing supply pipelines across complex dimensions." — Chief Logistics Officer',
@@ -280,3 +247,39 @@ if check_password():
             
         # Render the custom formatted quotes container box block onto the viewport screen
         st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
+
+    # 🛰️ RIGHT SIDE TELEMETRY COLUMN AREA
+    with right_panel_col:
+        # Widget Box A: Time & Calendar Data (Chrono-Telemetry)
+        st.markdown('<div class="right-widget-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="widget-title">🛰️ Chrono-Telemetry Data</div>', unsafe_allow_html=True)
+        
+        # Pull exact current active timestamps
+        time_str = datetime.now().strftime("%I:%M:%S %p")
+        date_str = datetime.now().strftime("%A, %B %d, %Y")
+        
+        st.markdown(f"**⏰ Station Time:** `{time_str}`")
+        st.markdown(f"**📅 Current Date:** `{date_str}`")
+        
+        selected_date = st.date_input(
+            "📅 Select Calendar Target View:", 
+            value=datetime.now(),
+            key="space_calendar"
+        )
+        st.markdown(f"<p style='font-size:11px; color:#8B949E; margin-top:5px;'>Active Orbit Context: Year {selected_date.year}</p>", unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Widget Box B: SCM Action Items Practice Checklist
+        st.markdown('<div class="right-widget-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="widget-title">📋 Operational Action Items</div>', unsafe_allow_html=True)
+        
+        task_1 = st.checkbox("📈 Run Demand Forecasting Scripts", value=False, key="t_1")
+        task_2 = st.checkbox("📦 Perform Inventory ABC Sorting", value=False, key="t_2")
+        task_3 = st.checkbox("🚢 Audit 3PL Carrier SLA Delivery", value=False, key="t_3")
+        task_4 = st.checkbox("🤝 Review Supplier Defect Invoices", value=False, key="t_4")
+        task_5 = st.checkbox("💸 Reconcile Freight Variance", value=False, key="t_5")
+        
+        completed_tasks = sum([task_1, task_2, task_3, task_4, task_5])
+        st.progress(completed_tasks / 5.0)
+        st.markdown(f"<p style='font-size:12px; color:#38BDF8; font-family:monospace; margin-top:5px;'>Task Sync Completion: {completed_tasks}/5 Nodes Secure</p>", unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
