@@ -145,9 +145,8 @@ def check_password():
     return False
 
 if check_password():
+    # Cleaned Sidebar Panel (Uploader text header removed entirely)
     st.sidebar.markdown("# ☄️ comets")
-    st.sidebar.markdown("### ➕ Ingest New Dataset")
-    uploaded_file = st.sidebar.file_uploader("Drop custom CSV or Excel logs:", type=["csv", "xlsx"])
     st.sidebar.markdown("---")
     if st.sidebar.button("🔒 Secure Terminal / Log Out", use_container_width=True):
         st.session_state["authenticated"] = False
@@ -155,16 +154,6 @@ if check_password():
 
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("---")
-
-    if uploaded_file is not None:
-        try:
-            custom_df = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
-            st.subheader(f"📊 Active Operations Board: `{uploaded_file.name}`")
-            st.dataframe(custom_df, use_container_width=True)
-            custom_code = st.text_area("Python Script Box:", value="st.write(custom_df.describe())")
-            if st.button("Execute Core Logic Stream"):
-                exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
-        except Exception as e: st.error(f"Failed to compile target table: {e}")
 
     st.subheader("🌐 Telemetry Systems Pipeline Verification")
     m_col1, m_col2, m_col3 = st.columns(3)
