@@ -3,19 +3,21 @@ import pandas as pd
 import random
 from datetime import datetime
 
-# ☄️ Force wide page matrix config layout
-st.set_page_config(page_title="comets | Space Logistics Hub", layout="wide", page_icon="☄️")
+# Configure wide page matrix layout
+st.set_page_config(page_title="comets | Infinite Space Hub", layout="wide", page_icon="☄️")
 
-# 🌌 COGNITIVE SPACE COMPONENT BLOCKS OVERLAY STYLES
+# ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
 <style>
+    /* Force main app background to look hidden or transparent so the canvas stars show through */
     .stApp {
         background: transparent !important;
     }
+    
     html, body {
         background-color: #020306 !important;
     }
-    
+
     /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH */
     [data-testid="stSidebar"] {
         min-width: 190px !important;
@@ -199,7 +201,7 @@ def check_password():
     return False
 
 if check_password():
-    # Left Sidebar Panel layout configuration
+    # Left Sidebar layout containing your document uploader dropzone box
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown("---")
     uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
@@ -227,7 +229,7 @@ if check_password():
                 st.markdown("---")
             except Exception as e: st.error(f"Failed to process file: {e}")
 
-               # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA (CONTINUED)
+                # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA (CONTINUED)
         ceo_quotes = [
             '"In global logistics, a delay in transit isn\'t a resource shortage—it\'s an information asymmetry problem. Optimize visibility, and speed takes care of itself." — Chief Executive Officer',
             '"The comets network doesn\'t build traditional tracks; we build resilient, self-healing supply pipelines across complex dimensions." — Chief Logistics Officer',
@@ -248,38 +250,18 @@ if check_password():
         # Render the custom formatted quotes container box block onto the viewport screen
         st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
 
-    # 🛰️ RIGHT SIDE TELEMETRY COLUMN AREA
+    # 🛰️ RIGHT COLUMN METRICS PANELS
     with right_panel_col:
-        # Widget Box A: Time & Calendar Data (Chrono-Telemetry)
+        # Streamlined Chrono-Telemetry Panel (Only Time, Date, and Calendar)
         st.markdown('<div class="right-widget-panel">', unsafe_allow_html=True)
         st.markdown('<div class="widget-title">🛰️ Chrono-Telemetry Data</div>', unsafe_allow_html=True)
         
-        # Pull exact current active timestamps
         time_str = datetime.now().strftime("%I:%M:%S %p")
         date_str = datetime.now().strftime("%A, %B %d, %Y")
         
         st.markdown(f"**⏰ Station Time:** `{time_str}`")
         st.markdown(f"**📅 Current Date:** `{date_str}`")
         
-        selected_date = st.date_input(
-            "📅 Select Calendar Target View:", 
-            value=datetime.now(),
-            key="space_calendar"
-        )
-        st.markdown(f"<p style='font-size:11px; color:#8B949E; margin-top:5px;'>Active Orbit Context: Year {selected_date.year}</p>", unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # Widget Box B: SCM Action Items Practice Checklist
-        st.markdown('<div class="right-widget-panel">', unsafe_allow_html=True)
-        st.markdown('<div class="widget-title">📋 Operational Action Items</div>', unsafe_allow_html=True)
-        
-        task_1 = st.checkbox("📈 Run Demand Forecasting Scripts", value=False, key="t_1")
-        task_2 = st.checkbox("📦 Perform Inventory ABC Sorting", value=False, key="t_2")
-        task_3 = st.checkbox("🚢 Audit 3PL Carrier SLA Delivery", value=False, key="t_3")
-        task_4 = st.checkbox("🤝 Review Supplier Defect Invoices", value=False, key="t_4")
-        task_5 = st.checkbox("💸 Reconcile Freight Variance", value=False, key="t_5")
-        
-        completed_tasks = sum([task_1, task_2, task_3, task_4, task_5])
-        st.progress(completed_tasks / 5.0)
-        st.markdown(f"<p style='font-size:12px; color:#38BDF8; font-family:monospace; margin-top:5px;'>Task Sync Completion: {completed_tasks}/5 Nodes Secure</p>", unsafe_allow_html=True)
+        selected_date = st.date_input("📅 Select Calendar Target View:", value=datetime.now(), key="space_calendar")
+        st.markdown(f"<p style='font-size:11px; color:#8B949E; margin-top:5px;'>Active Orbit: Year {selected_date.year}</p>", unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
