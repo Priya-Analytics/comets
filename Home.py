@@ -3,7 +3,7 @@ import pandas as pd
 
 st.set_page_config(page_title="comets | Infinite Space Hub", layout="wide", page_icon="☄️")
 
-# ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
+# ☄️ INJECT ADVANCED GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
 <style>
     /* Force main app background to look hidden or transparent so the canvas stars show through */
@@ -29,6 +29,13 @@ st.markdown("""
     div[data-testid="stMetricValue"] { color: #38BDF8 !important; font-family: 'Courier New', monospace; font-weight: 700 !important; }
     div[data-testid="stMetricLabel"] { color: #94A3B8 !important; letter-spacing: 2px; }
     .main-title { font-size: 42px; font-weight: 800; color: #F8FAFC; text-shadow: 0 0 20px rgba(56,189,248,0.5); position: relative; z-index: 10; }
+    
+    /* Make the file uploader dropzone blend beautifully into dark space theme */
+    div[data-testid="stFileUploaderDropzone"] {
+        background-color: rgba(15, 23, 42, 0.6) !important;
+        border: 1px dashed rgba(56, 189, 248, 0.3) !important;
+        border-radius: 10px !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -145,8 +152,17 @@ def check_password():
     return False
 
 if check_password():
-    # Cleaned Sidebar Panel (Uploader text header removed entirely)
+    # Cleaned Sidebar Panel with a clean data upload dropzone
     st.sidebar.markdown("# ☄️ comets")
+    st.sidebar.markdown("---")
+    
+    # 📥 THE CORE FILE UPLOADER WIDGET PLACE
+    uploaded_file = st.sidebar.file_uploader(
+        label="",  # Left blank intentionally for clean visuals
+        type=["csv", "xlsx"],
+        label_visibility="collapsed"  # Hides the default text label completely
+    )
+    
     st.sidebar.markdown("---")
     if st.sidebar.button("🔒 Secure Terminal / Log Out", use_container_width=True):
         st.session_state["authenticated"] = False
@@ -154,6 +170,31 @@ if check_password():
 
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("---")
+
+    # 📊 DYNAMIC LIVE SHEET DATA DISPLAY ENGINE
+    if uploaded_file is not None:
+        try:
+            # Check file extension types dynamically
+            if uploaded_file.name.endswith('.csv'):
+                custom_df = pd.read_csv(uploaded_file)
+            else:
+                custom_df = pd.read_excel(uploaded_file)
+                
+            st.markdown(f"### 📂 Active Scratchpad Data: `{uploaded_file.name}`")
+            st.dataframe(custom_df, use_container_width=True)
+            
+            # Interactive script editor box for custom uploaded datasets
+            st.markdown("### 🐍 Python Execution Terminal (Uploaded Sheet Context)")
+            custom_code = st.text_area(
+                "Write data manipulation code here (use `custom_df` variable):", 
+                value="# Basic description statistics example\nst.write(custom_df.describe())"
+            )
+            if st.button("Execute Upload Logic Stream"):
+                exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
+            st.markdown("---")
+            
+        except Exception as e:
+            st.error(f"Failed to process your downloaded spreadsheet file layer: {e}")
 
     st.subheader("🌐 Telemetry Systems Pipeline Verification")
     m_col1, m_col2, m_col3 = st.columns(3)
