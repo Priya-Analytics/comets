@@ -1,36 +1,55 @@
 import streamlit as st
 import pandas as pd
+import random
 
 st.set_page_config(page_title="comets | Infinite Space Hub", layout="wide", page_icon="☄️")
 
-# ☄️ INJECT ADVANCED GLOW COMPONENT OVERLAY STYLES
+# ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
 <style>
-    /* Force main app background to look hidden or transparent so the canvas stars show through */
     .stApp {
         background: transparent !important;
     }
-    
     html, body {
         background-color: #020306 !important;
     }
-
-    /* Lock analytics metrics boxes cleanly on top of the space animation */
-    div[data-testid="stMetricBlock"] {
-        background: rgba(8, 12, 24, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        backdrop-filter: blur(16px) !important;
-        border-radius: 12px !important;
-        padding: 20px !important;
+    
+    /* Sleek container for the Hidden CEO terminal */
+    .ceo-terminal {
+        background: rgba(11, 19, 43, 0.6) !important;
+        border: 1px solid rgba(56, 189, 248, 0.2) !important;
+        backdrop-filter: blur(20px) !important;
+        border-radius: 16px !important;
+        padding: 30px !important;
         position: relative;
         z-index: 10;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+        margin-top: 20px;
     }
-    div[data-testid="stMetricValue"] { color: #38BDF8 !important; font-family: 'Courier New', monospace; font-weight: 700 !important; }
-    div[data-testid="stMetricLabel"] { color: #94A3B8 !important; letter-spacing: 2px; }
+    
+    .ceo-title {
+        color: #38BDF8 !important;
+        font-family: 'Courier New', monospace;
+        font-weight: 700;
+        letter-spacing: 2px;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .quote-box {
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        color: #F8FAFC;
+        font-size: 20px;
+        line-height: 1.6;
+        border-left: 4px solid #F43F5E;
+        padding-left: 20px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px rgba(248,250,252,0.2);
+    }
+    
     .main-title { font-size: 42px; font-weight: 800; color: #F8FAFC; text-shadow: 0 0 20px rgba(56,189,248,0.5); position: relative; z-index: 10; }
     
-    /* Make the file uploader dropzone blend beautifully into dark space theme */
     div[data-testid="stFileUploaderDropzone"] {
         background-color: rgba(15, 23, 42, 0.6) !important;
         border: 1px dashed rgba(56, 189, 248, 0.3) !important;
@@ -53,7 +72,6 @@ st.components.v1.html("""
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Generate an even heavier cosmic layout matrix background of 400 deep sky stars
     const stars = [];
     for(let i = 0; i < 400; i++) {
         stars.push({
@@ -64,7 +82,6 @@ st.components.v1.html("""
         });
     }
 
-    // Active comet falling trail generator variables
     let comets = [
         { x: Math.random() * canvas.width, y: -50, speedX: -6, speedY: 6, length: 150, color: '#38BDF8' },
         { x: Math.random() * canvas.width + 300, y: -50, speedX: -8, speedY: 8, length: 110, color: '#F43F5E' },
@@ -75,7 +92,6 @@ st.components.v1.html("""
         ctx.fillStyle = '#020306';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw and twinkle space stars background
         for(let star of stars) {
             ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
             ctx.beginPath();
@@ -86,7 +102,6 @@ st.components.v1.html("""
             if(star.opacity > 1) star.opacity = 1;
         }
 
-        // Render real falling comets tracking lines with gradient particle tails
         for(let comet of comets) {
             let gradient = ctx.createLinearGradient(comet.x, comet.y, comet.x - comet.speedX * 15, comet.y - comet.speedY * 15);
             gradient.addColorStop(0, '#FFFFFF');
@@ -101,11 +116,9 @@ st.components.v1.html("""
             ctx.lineTo(comet.x - comet.speedX * 15, comet.y - comet.speedY * 15);
             ctx.stroke();
 
-            // Drive comet paths down and left across the screen window
             comet.x += comet.speedX;
             comet.y += comet.speedY;
 
-            // Reset loop position if a comet leaves the viewport limits
             if(comet.y > canvas.height + 150 || comet.x < -150 || comet.x > canvas.width + 150) {
                 comet.x = Math.random() * canvas.width + canvas.width/4;
                 comet.y = -50;
@@ -152,15 +165,13 @@ def check_password():
     return False
 
 if check_password():
-    # Cleaned Sidebar Panel with a clean data upload dropzone
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown("---")
     
-    # 📥 THE CORE FILE UPLOADER WIDGET PLACE
     uploaded_file = st.sidebar.file_uploader(
-        label="",  # Left blank intentionally for clean visuals
+        label="", 
         type=["csv", "xlsx"],
-        label_visibility="collapsed"  # Hides the default text label completely
+        label_visibility="collapsed"
     )
     
     st.sidebar.markdown("---")
@@ -171,10 +182,8 @@ if check_password():
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("---")
 
-    # 📊 DYNAMIC LIVE SHEET DATA DISPLAY ENGINE
     if uploaded_file is not None:
         try:
-            # Check file extension types dynamically
             if uploaded_file.name.endswith('.csv'):
                 custom_df = pd.read_csv(uploaded_file)
             else:
@@ -183,7 +192,6 @@ if check_password():
             st.markdown(f"### 📂 Active Scratchpad Data: `{uploaded_file.name}`")
             st.dataframe(custom_df, use_container_width=True)
             
-            # Interactive script editor box for custom uploaded datasets
             st.markdown("### 🐍 Python Execution Terminal (Uploaded Sheet Context)")
             custom_code = st.text_area(
                 "Write data manipulation code here (use `custom_df` variable):", 
@@ -194,10 +202,33 @@ if check_password():
             st.markdown("---")
             
         except Exception as e:
-            st.error(f"Failed to process your downloaded spreadsheet file layer: {e}")
+            st.error(f"Failed to process spreadsheet file: {e}")
 
-    st.subheader("🌐 Telemetry Systems Pipeline Verification")
-    m_col1, m_col2, m_col3 = st.columns(3)
-    with m_col1: st.metric(label="SQL Server Node Connection", value="10 Tables Online")
-    with m_col2: st.metric(label="Python Execution Core", value="Active Runtime")
-    with m_col3: st.metric(label="Power BI Frame Containers", value="Telemetry Ready")
+    # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA
+    st.markdown("""
+    <div class="ceo-terminal">
+        <div class="ceo-title">🔒 RESTRICTED DIRECTIVE: ENCRYPTED EXECUTIVE LOGS</div>
+        <p style="color: #94A3B8; font-size: 14px; margin-bottom: 20px;">
+            Intercepting internal quantum channels. Strategic directives for comets network nodes are buffered below.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # List of strategic executive analyst quotes
+    ceo_quotes = [
+        '"In global logistics, a delay in transit isn\'t a resource shortage—it\'s an information asymmetry problem. Optimize visibility, and speed takes care of itself." — Chief Executive Officer',
+        '"The comets network doesn\'t build traditional tracks; we build resilient, self-healing supply pipelines across complex dimensions." — Chief Logistics Officer',
+        '"A master data analyst doesn\'t stare at lagging indices. They forecast structural bottlenecks before manufacturing nodes throw failure codes." — Chief Technology Director',
+        '"Efficiency is born when lead time drop matrices sync perfectly with dynamic automated replenishment variables." — Executive Operations Board',
+        '"True supply chain optimization isn\'t about cutting total route costs. It is about building flexibility to survive localized network collapses." — Chief Procurement Officer'
+    ]
+    
+    # Handle random generation cache loops using simple session states
+    if "current_quote" not in st.session_state:
+        st.session_state["current_quote"] = ceo_quotes[0]
+        
+    if st.button("🔌 Decrypt Next Command Directive"):
+        st.session_state["current_quote"] = random.choice(ceo_quotes)
+        st.rerun()
+        
+    st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
