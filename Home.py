@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="coments | Infinite Space Hub", layout="wide", page_icon="☄️")
+st.set_page_config(page_title="comets | Infinite Space Hub", layout="wide", page_icon="☄️")
 
 # ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
@@ -33,7 +33,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 🌌 LIVE JAVASCRIPT SPACE FIELD & FALLING COMET SIMULATOR 
-# Fixed parameter from scroller=False to scrolling=False
 st.components.v1.html("""
 <canvas id="spaceCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020306; z-index: -999; pointer-events: none;"></canvas>
 <script>
@@ -117,7 +116,7 @@ if "authenticated" not in st.session_state: st.session_state["authenticated"] = 
 
 def check_password():
     if st.session_state["master_password"] is None:
-        st.markdown("<h2 class='main-title'>☄️ coments Security Matrix Configuration</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='main-title'>☄️ comets Security Matrix Configuration</h2>", unsafe_allow_html=True)
         new_pass = st.text_input("Create Your Private Master Password:", type="password", key="new_p")
         confirm_pass = st.text_input("Confirm Your Private Master Password:", type="password", key="conf_p")
         if st.button("Activate Launch Codes"):
@@ -146,7 +145,7 @@ def check_password():
     return False
 
 if check_password():
-    st.sidebar.markdown("# ☄️ coments")
+    st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown("### ➕ Ingest New Dataset")
     uploaded_file = st.sidebar.file_uploader("Drop custom CSV or Excel logs:", type=["csv", "xlsx"])
     st.sidebar.markdown("---")
@@ -154,7 +153,7 @@ if check_password():
         st.session_state["authenticated"] = False
         st.rerun()
 
-    st.markdown("<h1 class='main-title'>☄️ coments: Orbit Control Center</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("---")
 
     if uploaded_file is not None:
