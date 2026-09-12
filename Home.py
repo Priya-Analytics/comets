@@ -271,7 +271,7 @@ if check_password():
         
         # 🔄 Initialize session states so data stays safe during click refreshes
         if "current_quote" not in st.session_state:
-            st.session_state["current_quote"] = ceo_quotes[0]
+            st.session_state["current_quote"] = random.choice(ceo_quotes)
             
         # 🔌 Decryption command control loop engine
         if st.button("🔌 Decrypt Next Command Directive"):
