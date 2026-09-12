@@ -1,12 +1,15 @@
 import streamlit as st
 import pandas as pd
 import random
+from datetime import datetime
 
+# Set Page Config with custom tabs
 st.set_page_config(page_title="comets | Infinite Space Hub", layout="wide", page_icon="☄️")
 
-# ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
+# ☄️ ADVANCED STRUCTURAL GLASSMORPHIC DARK SPACE GRAPHICS LAYOUT
 st.markdown("""
 <style>
+    /* Reset app background to transparent so JavaScript stars shine through cleanly */
     .stApp {
         background: transparent !important;
     }
@@ -14,17 +17,25 @@ st.markdown("""
         background-color: #020306 !important;
     }
     
-    /* Sleek container for the Hidden CEO terminal */
+    /* 🛠️ REDUCE LEFT SIDEBAR FOOTPRINT WIDTH */
+    [data-testid="stSidebar"] {
+        min-width: 190px !important;
+        max-width: 230px !important;
+        background-color: rgba(6, 9, 15, 0.95) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    /* Container for the Decrypted CEO directive terminal box */
     .ceo-terminal {
-        background: rgba(11, 19, 43, 0.6) !important;
-        border: 1px solid rgba(56, 189, 248, 0.2) !important;
+        background: rgba(11, 19, 43, 0.65) !important;
+        border: 1px solid rgba(56, 189, 248, 0.25) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px !important;
-        padding: 30px !important;
+        padding: 25px !important;
         position: relative;
         z-index: 10;
-        box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
-        margin-top: 20px;
+        box-shadow: 0 0 35px rgba(56, 189, 248, 0.15);
+        margin-top: 10px;
     }
     
     .ceo-title {
@@ -32,20 +43,45 @@ st.markdown("""
         font-family: 'Courier New', monospace;
         font-weight: 700;
         letter-spacing: 2px;
-        font-size: 18px;
-        margin-bottom: 15px;
+        font-size: 16px;
+        margin-bottom: 10px;
     }
     
     .quote-box {
         font-family: 'Georgia', serif;
         font-style: italic;
         color: #F8FAFC;
-        font-size: 20px;
+        font-size: 17px;
         line-height: 1.6;
-        border-left: 4px solid #F43F5E;
-        padding-left: 20px;
-        margin: 20px 0;
-        text-shadow: 0 0 10px rgba(248,250,252,0.2);
+        border-left: 3px solid #F43F5E;
+        padding-left: 15px;
+        margin: 15px 0;
+        text-shadow: 0 0 8px rgba(248,250,252,0.15);
+    }
+
+    /* Right widget side container panels */
+    .right-widget-panel {
+        background: rgba(14, 20, 38, 0.65) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        backdrop-filter: blur(16px) !important;
+        border-radius: 14px !important;
+        padding: 20px !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .widget-title {
+        color: #38BDF8 !important;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        padding-bottom: 6px;
     }
     
     .main-title { font-size: 42px; font-weight: 800; color: #F8FAFC; text-shadow: 0 0 20px rgba(56,189,248,0.5); position: relative; z-index: 10; }
@@ -58,7 +94,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 🌌 LIVE JAVASCRIPT SPACE FIELD & FALLING COMET SIMULATOR 
+# 🌌 LIVE JAVASCRIPT SPACE FIELD & FALLING COMET CANVAS SIMULATOR 
 st.components.v1.html("""
 <canvas id="spaceCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020306; z-index: -999; pointer-events: none;"></canvas>
 <script>
@@ -72,6 +108,7 @@ st.components.v1.html("""
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
+    // Generate an even heavier cosmic matrix background of 400 deep sky stars
     const stars = [];
     for(let i = 0; i < 400; i++) {
         stars.push({
@@ -82,6 +119,7 @@ st.components.v1.html("""
         });
     }
 
+    // Active comet falling trail generator variables
     let comets = [
         { x: Math.random() * canvas.width, y: -50, speedX: -6, speedY: 6, length: 150, color: '#38BDF8' },
         { x: Math.random() * canvas.width + 300, y: -50, speedX: -8, speedY: 8, length: 110, color: '#F43F5E' },
@@ -92,6 +130,7 @@ st.components.v1.html("""
         ctx.fillStyle = '#020306';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        // Draw and twinkle space stars background
         for(let star of stars) {
             ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
             ctx.beginPath();
@@ -102,6 +141,7 @@ st.components.v1.html("""
             if(star.opacity > 1) star.opacity = 1;
         }
 
+        // Render real falling comets tracking lines with gradient particle tails
         for(let comet of comets) {
             let gradient = ctx.createLinearGradient(comet.x, comet.y, comet.x - comet.speedX * 15, comet.y - comet.speedY * 15);
             gradient.addColorStop(0, '#FFFFFF');
@@ -130,7 +170,7 @@ st.components.v1.html("""
 </script>
 """, height=0, scrolling=False)
 
-# 🔒 ROBUST CUSTOM AUTH CHECKS
+# 🔒 ROBUST PASSWORD GATE CHECKS
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
@@ -165,6 +205,7 @@ def check_password():
     return False
 
 if check_password():
+    # Cleaned Sidebar layout containing your document uploader dropzone box
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown("---")
     
@@ -179,56 +220,63 @@ if check_password():
         st.session_state["authenticated"] = False
         st.rerun()
 
-    st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
-    st.markdown("---")
+    # 🛠️ ASYMMETRIC SYSTEM STRUCTURE LAYOUT COLUMNS
+    main_left_col, right_panel_col = st.columns([0.70, 0.30], gap="large")
 
-    if uploaded_file is not None:
-        try:
-            if uploaded_file.name.endswith('.csv'):
-                custom_df = pd.read_csv(uploaded_file)
-            else:
-                custom_df = pd.read_excel(uploaded_file)
+    with main_left_col:
+        st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        if uploaded_file is not None:
+            try:
+                if uploaded_file.name.endswith('.csv'):
+                    custom_df = pd.read_csv(uploaded_file)
+                else:
+                    custom_df = pd.read_excel(uploaded_file)
+                    
+                st.markdown(f"### 📂 Active Scratchpad Data: `{uploaded_file.name}`")
+                st.dataframe(custom_df, use_container_width=True)
                 
-            st.markdown(f"### 📂 Active Scratchpad Data: `{uploaded_file.name}`")
-            st.dataframe(custom_df, use_container_width=True)
-            
-            st.markdown("### 🐍 Python Execution Terminal (Uploaded Sheet Context)")
-            custom_code = st.text_area(
-                "Write data manipulation code here (use `custom_df` variable):", 
-                value="# Basic description statistics example\nst.write(custom_df.describe())"
-            )
-            if st.button("Execute Upload Logic Stream"):
-                exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
-            st.markdown("---")
-            
-        except Exception as e:
-            st.error(f"Failed to process spreadsheet file: {e}")
+                st.markdown("### 🐍 Python Execution Terminal (Uploaded Sheet Context)")
+                custom_code = st.text_area(
+                    "Write data manipulation code here (use `custom_df` variable):", 
+                    value="# Basic description statistics example\nst.write(custom_df.describe())"
+                )
+                if st.button("Execute Upload Logic Stream"):
+                    exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
+                st.markdown("---")
+                
+            except Exception as e:
+                st.error(f"Failed to process spreadsheet file: {e}")
 
-    # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA
-    st.markdown("""
-    <div class="ceo-terminal">
-        <div class="ceo-title">🔒 RESTRICTED DIRECTIVE: ENCRYPTED EXECUTIVE LOGS</div>
-        <p style="color: #94A3B8; font-size: 14px; margin-bottom: 20px;">
-            Intercepting internal quantum channels. Strategic directives for comets network nodes are buffered below.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # List of strategic executive analyst quotes
-    ceo_quotes = [
-        '"In global logistics, a delay in transit isn\'t a resource shortage—it\'s an information asymmetry problem. Optimize visibility, and speed takes care of itself." — Chief Executive Officer',
-        '"The comets network doesn\'t build traditional tracks; we build resilient, self-healing supply pipelines across complex dimensions." — Chief Logistics Officer',
-        '"A master data analyst doesn\'t stare at lagging indices. They forecast structural bottlenecks before manufacturing nodes throw failure codes." — Chief Technology Director',
-        '"Efficiency is born when lead time drop matrices sync perfectly with dynamic automated replenishment variables." — Executive Operations Board',
-        '"True supply chain optimization isn\'t about cutting total route costs. It is about building flexibility to survive localized network collapses." — Chief Procurement Officer'
-    ]
-    
-    # Handle random generation cache loops using simple session states
-    if "current_quote" not in st.session_state:
-        st.session_state["current_quote"] = ceo_quotes[0]
+               # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA
+        st.markdown("""
+        <div class="ceo-terminal">
+            <div class="ceo-title">🔒 RESTRICTED DIRECTIVE: ENCRYPTED EXECUTIVE LOGS</div>
+            <p style="color: #94A3B8; font-size: 13px; margin-bottom: 15px;">
+                Intercepting internal quantum channels. Strategic directives for comets network nodes are buffered below.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
         
-    if st.button("🔌 Decrypt Next Command Directive"):
-        st.session_state["current_quote"] = random.choice(ceo_quotes)
-        st.rerun()
+        # 📝 CEO Directive Dataset Array Matrix
+        ceo_quotes = [
+            '"In global logistics, a delay in transit isn\'t a resource shortage—it\'s an information asymmetry problem. Optimize visibility, and speed takes care of itself." — Chief Executive Officer',
+            '"The comets network doesn\'t build traditional tracks; we build resilient, self-healing supply pipelines across complex dimensions." — Chief Logistics Officer',
+            '"A master data analyst doesn\'t stare at lagging indices. They forecast structural bottlenecks before manufacturing nodes throw failure codes." — Chief Technology Director',
+            '"Efficiency is born when lead time drop matrices sync perfectly with dynamic automated replenishment variables." — Executive Operations Board',
+            '"True supply chain optimization isn\'t about cutting total route costs. It is about building flexibility to survive localized network collapses." — Chief Procurement Officer'
+        ]
         
-    st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
+        # 🔄 Initialize session states so data stays safe during click refreshes
+        if "current_quote" not in st.session_state:
+            st.session_state["current_quote"] = ceo_quotes[0]
+            
+        # 🔌 Decryption command control loop engine
+        if st.button("🔌 Decrypt Next Command Directive"):
+            st.session_state["current_quote"] = random.choice(ceo_quotes)
+            st.rerun()
+            
+        # Render the custom formatted quotes container box block onto the viewport screen
+        st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
