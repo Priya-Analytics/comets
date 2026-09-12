@@ -262,6 +262,3 @@ if check_password():
         st.markdown(f"**⏰ Station Time:** `{time_str}`")
         st.markdown(f"**📅 Current Date:** `{date_str}`")
         
-        selected_date = st.date_input("📅 Select Calendar Target View:", value=datetime.now(), key="space_calendar")
-        st.markdown(f"<p style='font-size:11px; color:#8B949E; margin-top:5px;'>Active Orbit: Year {selected_date.year}</p>", unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
