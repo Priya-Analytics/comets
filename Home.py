@@ -6,10 +6,15 @@ st.set_page_config(page_title="coments | Infinite Space Hub", layout="wide", pag
 # ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
 <style>
+    /* Force main app background to look hidden or transparent so the canvas stars show through */
     .stApp {
-        background: #020306 !important;
-        color: #E2E8F0;
+        background: transparent !important;
     }
+    
+    html, body {
+        background-color: #020306 !important;
+    }
+
     /* Lock analytics metrics boxes cleanly on top of the space animation */
     div[data-testid="stMetricBlock"] {
         background: rgba(8, 12, 24, 0.8) !important;
@@ -28,9 +33,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 🌌 LIVE JAVASCRIPT SPACE FIELD & FALLING COMET SIMULATOR 
-# This forces the browser to keep animating hundreds of stars and shooting meteors infinitely
+# Fixed parameter from scroller=False to scrolling=False
 st.components.v1.html("""
-<canvas id="spaceCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020306; z-index: -1; pointer-events: none;"></canvas>
+<canvas id="spaceCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020306; z-index: -999; pointer-events: none;"></canvas>
 <script>
     const canvas = document.getElementById('spaceCanvas');
     const ctx = canvas.getContext('2d');
@@ -42,21 +47,22 @@ st.components.v1.html("""
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Generate a heavy matrix background of 250 deep sky stars
+    // Generate an even heavier cosmic layout matrix background of 400 deep sky stars
     const stars = [];
-    for(let i = 0; i < 250; i++) {
+    for(let i = 0; i < 400; i++) {
         stars.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 1.5,
+            size: Math.random() * 2,
             opacity: Math.random()
         });
     }
 
     // Active comet falling trail generator variables
     let comets = [
-        { x: Math.random() * canvas.width, y: -50, speedX: -4, speedY: 4, length: 140, color: '#38BDF8' },
-        { x: Math.random() * canvas.width + 200, y: -50, speedX: -5, speedY: 5, length: 100, color: '#F43F5E' }
+        { x: Math.random() * canvas.width, y: -50, speedX: -6, speedY: 6, length: 150, color: '#38BDF8' },
+        { x: Math.random() * canvas.width + 300, y: -50, speedX: -8, speedY: 8, length: 110, color: '#F43F5E' },
+        { x: Math.random() * canvas.width - 200, y: -50, speedX: -5, speedY: 5, length: 130, color: '#A855F7' }
     ];
 
     function draw() {
@@ -69,24 +75,24 @@ st.components.v1.html("""
             ctx.beginPath();
             ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
             ctx.fill();
-            star.opacity += (Math.random() - 0.5) * 0.05;
+            star.opacity += (Math.random() - 0.5) * 0.04;
             if(star.opacity < 0.1) star.opacity = 0.1;
             if(star.opacity > 1) star.opacity = 1;
         }
 
         // Render real falling comets tracking lines with gradient particle tails
         for(let comet of comets) {
-            let gradient = ctx.createLinearGradient(comet.x, comet.y, comet.x + comet.length, comet.y - comet.length);
+            let gradient = ctx.createLinearGradient(comet.x, comet.y, comet.x - comet.speedX * 15, comet.y - comet.speedY * 15);
             gradient.addColorStop(0, '#FFFFFF');
-            gradient.addColorStop(0.1, comet.color);
+            gradient.addColorStop(0.15, comet.color);
             gradient.addColorStop(1, 'transparent');
 
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 3.5;
             ctx.lineCap = 'round';
             ctx.beginPath();
             ctx.moveTo(comet.x, comet.y);
-            ctx.lineTo(comet.x + comet.length, comet.y - comet.length);
+            ctx.lineTo(comet.x - comet.speedX * 15, comet.y - comet.speedY * 15);
             ctx.stroke();
 
             // Drive comet paths down and left across the screen window
@@ -94,8 +100,8 @@ st.components.v1.html("""
             comet.y += comet.speedY;
 
             // Reset loop position if a comet leaves the viewport limits
-            if(comet.y > canvas.height + 100 || comet.x < -100) {
-                comet.x = Math.random() * canvas.width + canvas.width/2;
+            if(comet.y > canvas.height + 150 || comet.x < -150 || comet.x > canvas.width + 150) {
+                comet.x = Math.random() * canvas.width + canvas.width/4;
                 comet.y = -50;
             }
         }
@@ -103,7 +109,7 @@ st.components.v1.html("""
     }
     draw();
 </script>
-""", height=0, scroller=False)
+""", height=0, scrolling=False)
 
 # 🔒 ROBUST CUSTOM AUTH CHECKS
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
