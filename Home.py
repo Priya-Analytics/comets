@@ -1,89 +1,117 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="coments | Space Logistics Hub", layout="wide", page_icon="☄️")
+st.set_page_config(page_title="coments | Infinite Space Hub", layout="wide", page_icon="☄️")
 
-# 🌠 INFINITE LIVE ANIMATED DEEP SPACE ENGINE WITH FALLING METEORS
+# ☄️ INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
 <style>
-    /* Full Application Space Backdrop Canvas */
     .stApp {
-        background: #020408 !important;
+        background: #020306 !important;
         color: #E2E8F0;
     }
-    
-    /* Layer data metrics cards clearly over the animations */
+    /* Lock analytics metrics boxes cleanly on top of the space animation */
     div[data-testid="stMetricBlock"] {
-        background: rgba(10, 15, 30, 0.75) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(12px) !important;
+        background: rgba(8, 12, 24, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(16px) !important;
         border-radius: 12px !important;
         padding: 20px !important;
         position: relative;
         z-index: 10;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     }
-    div[data-testid="stMetricValue"] { color: #60A5FA !important; font-family: 'Courier New', monospace; font-weight: 700 !important; }
+    div[data-testid="stMetricValue"] { color: #38BDF8 !important; font-family: 'Courier New', monospace; font-weight: 700 !important; }
     div[data-testid="stMetricLabel"] { color: #94A3B8 !important; letter-spacing: 2px; }
+    .main-title { font-size: 42px; font-weight: 800; color: #F8FAFC; text-shadow: 0 0 20px rgba(56,189,248,0.5); position: relative; z-index: 10; }
 </style>
-
-<!-- Live Animated Space Backdrop Engine Frame Injector -->
-<div class="space-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; overflow: hidden;">
-    <svg width="100%" height="100%" xmlns="http://w3.org">
-        <!-- Floating Stars Matrix background -->
-        <rect width="100%" height="100%" fill="none"/>
-        <circle cx="10%" cy="20%" r="1" fill="#fff" opacity="0.5"/>
-        <circle cx="30%" cy="15%" r="1.5" fill="#fff" opacity="0.8"/>
-        <circle cx="75%" cy="25%" r="1" fill="#93C5FD" opacity="0.6"/>
-        <circle cx="85%" cy="40%" r="2" fill="#fff" opacity="0.4"/>
-        <circle cx="45%" cy="65%" r="1" fill="#fff" opacity="0.7"/>
-        <circle cx="60%" cy="80%" r="1.5" fill="#fff" opacity="0.9"/>
-        <circle cx="20%" cy="85%" r="2" fill="#93C5FD" opacity="0.5"/>
-        
-        <!-- Continuous Shooting Meteor 1 (Cyan Velocity) -->
-        <path d="M0,0 L120,120" stroke="url(#cyan-comet)" stroke-width="4" stroke-linecap="round">
-            <animateTransform 
-                attributeName="transform" 
-                type="translate" 
-                from="1200,-200" to="-200,1000" 
-                dur="6s" 
-                repeatCount="indefinite" />
-        </path>
-        
-        <!-- Continuous Shooting Meteor 2 (Crimson Trail) -->
-        <path d="M0,0 L90,90" stroke="url(#ruby-comet)" stroke-width="3" stroke-linecap="round">
-            <animateTransform 
-                attributeName="transform" 
-                type="translate" 
-                from="1600,0" to="-200,1200" 
-                dur="10s" 
-                begin="3s"
-                repeatCount="indefinite" />
-        </path>
-
-        <!-- Gradients giving comets realistic heads and fading plasma stardust tails -->
-        <defs>
-            <linearGradient id="cyan-comet" x1="1" y1="1" x2="0" y2="0">
-                <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
-                <stop offset="20%" stop-color="#60A5FA" stop-opacity="0.8"/>
-                <stop offset="100%" stop-color="#1E3A8A" stop-opacity="0"/>
-            </linearGradient>
-            <linearGradient id="ruby-comet" x1="1" y1="1" x2="0" y2="0">
-                <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
-                <stop offset="25%" stop-color="#F43F5E" stop-opacity="0.8"/>
-                <stop offset="100%" stop-color="#881337" stop-opacity="0"/>
-            </linearGradient>
-        </defs>
-    </svg>
-</div>
 """, unsafe_allow_html=True)
 
-# 🔒 RECONFIGURED SECURITY CHECKS
+# 🌌 LIVE JAVASCRIPT SPACE FIELD & FALLING COMET SIMULATOR 
+# This forces the browser to keep animating hundreds of stars and shooting meteors infinitely
+st.components.v1.html("""
+<canvas id="spaceCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020306; z-index: -1; pointer-events: none;"></canvas>
+<script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Generate a heavy matrix background of 250 deep sky stars
+    const stars = [];
+    for(let i = 0; i < 250; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 1.5,
+            opacity: Math.random()
+        });
+    }
+
+    // Active comet falling trail generator variables
+    let comets = [
+        { x: Math.random() * canvas.width, y: -50, speedX: -4, speedY: 4, length: 140, color: '#38BDF8' },
+        { x: Math.random() * canvas.width + 200, y: -50, speedX: -5, speedY: 5, length: 100, color: '#F43F5E' }
+    ];
+
+    function draw() {
+        ctx.fillStyle = '#020306';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw and twinkle space stars background
+        for(let star of stars) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            ctx.fill();
+            star.opacity += (Math.random() - 0.5) * 0.05;
+            if(star.opacity < 0.1) star.opacity = 0.1;
+            if(star.opacity > 1) star.opacity = 1;
+        }
+
+        // Render real falling comets tracking lines with gradient particle tails
+        for(let comet of comets) {
+            let gradient = ctx.createLinearGradient(comet.x, comet.y, comet.x + comet.length, comet.y - comet.length);
+            gradient.addColorStop(0, '#FFFFFF');
+            gradient.addColorStop(0.1, comet.color);
+            gradient.addColorStop(1, 'transparent');
+
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(comet.x, comet.y);
+            ctx.lineTo(comet.x + comet.length, comet.y - comet.length);
+            ctx.stroke();
+
+            // Drive comet paths down and left across the screen window
+            comet.x += comet.speedX;
+            comet.y += comet.speedY;
+
+            // Reset loop position if a comet leaves the viewport limits
+            if(comet.y > canvas.height + 100 || comet.x < -100) {
+                comet.x = Math.random() * canvas.width + canvas.width/2;
+                comet.y = -50;
+            }
+        }
+        requestAnimationFrame(draw);
+    }
+    draw();
+</script>
+""", height=0, scroller=False)
+
+# 🔒 ROBUST CUSTOM AUTH CHECKS
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
 def check_password():
     if st.session_state["master_password"] is None:
-        st.markdown("<h2 style='position:relative; z-index:10;'>☄️ coments Security Matrix Configuration</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='main-title'>☄️ coments Security Matrix Configuration</h2>", unsafe_allow_html=True)
         new_pass = st.text_input("Create Your Private Master Password:", type="password", key="new_p")
         confirm_pass = st.text_input("Confirm Your Private Master Password:", type="password", key="conf_p")
         if st.button("Activate Launch Codes"):
@@ -95,11 +123,11 @@ def check_password():
         return False
     if st.session_state["authenticated"]: return True
     
-    st.markdown("<h2 style='position:relative; z-index:10;'>🔒 Terminal Authentication Gate</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='main-title'>🔒 Terminal Authentication Gate</h2>", unsafe_allow_html=True)
     input_pass = st.text_input("Enter Key:", type="password", key="auth_p")
     colA, colB = st.columns(2)
     with colA:
-        if st.button("Unlock"):
+        if st.button("Unlock Workspace"):
             if input_pass == st.session_state["master_password"]:
                 st.session_state["authenticated"] = True
                 st.rerun()
@@ -120,7 +148,7 @@ if check_password():
         st.session_state["authenticated"] = False
         st.rerun()
 
-    st.markdown("<h1 style='position:relative; z-index:10; color: #F8FAFC; text-shadow: 0px 0px 15px rgba(96,165,250,0.4);'>☄️ coments: Orbit Control Center</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-title'>☄️ coments: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("---")
 
     if uploaded_file is not None:
