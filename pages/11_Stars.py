@@ -12,7 +12,7 @@ if "authenticated" not in st.session_state or not st.session_state["authenticate
     st.error("🔐 Please configure and log in on the Home page first to access this operational matrix.")
     st.stop()
 
-# 🌌 LIVE JAVASCRIPT SPACE CANVAS BACKGROUND (STARS GENERATOR)
+# 🌌 LIVE JAVASCRIPT SPACE CANVAS BACKGROUND
 st.components.v1.html("""
 <canvas id="starsSubCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020306; z-index: -999; pointer-events: none;"></canvas>
 <script>
@@ -55,7 +55,7 @@ st.components.v1.html("""
 </script>
 """, height=0, scrolling=False)
 
-# 🎨 INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
+# 🎨 INJECT OPTIMIZED ROW COMPRESSION CSS
 st.markdown("""
 <style>
     .stApp { background: transparent !important; }
@@ -76,19 +76,31 @@ st.markdown("""
         margin-bottom: 15px;
     }
     
-    /* Style popover action buttons to look like clean numeric date grid blocks */
+    /* 🛠️ FORCE TOTAL VERTICAL GAP REMOVAL BETWEEN ROWS */
+    div[data-testid="stVerticalBlock"] > div {
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+    }
+    
+    div[data-testid="stHorizontalBlock"] {
+        margin-bottom: 4px !important; /* Tiny micro-gap between rows */
+        gap: 6px !important; /* Horizontal gap between day containers */
+    }
+    
+    /* Popover configuration tweaks */
     div[data-testid="stPopover"] > button {
         width: 100% !important;
         background-color: #111827 !important;
         border: 1px solid #1F2937 !important;
         color: #E2E8F0 !important;
-        padding: 15px 5px !important;
+        padding: 12px 5px !important;
         border-radius: 6px !important;
         font-weight: bold !important;
         text-align: center !important;
     }
     
-    /* Highlight state style override rule logic blocks for the current day container */
     div.current-day-btn > div[data-testid="stPopover"] > button {
         background-color: #1E3A8A !important;
         border: 1px solid #38BDF8 !important;
@@ -98,7 +110,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 📋 LEFT TITLE HEADER (CLEANED)
+# 📋 LEFT TITLE HEADER
 st.markdown('<div class="schedule-header">📅 Schedule</div>', unsafe_allow_html=True)
 
 # 🛰️ DYNAMIC REAL-TIME IST TELEMETRY ENGINE
@@ -124,10 +136,9 @@ st.components.v1.html("""
 
 st.markdown("---")
 
-# 📅 RENDER DYNAMIC MONTH GRID MATRIX WITH INTERNAL MODAL POPUPS
+# 📅 RENDER COMPRESSED CALENDAR MATRIX
 st.subheader("🗓️ Calendar Matrix View")
 
-# Initialize persistent memory storage bank mapping arrays
 if "calendar_events" not in st.session_state:
     st.session_state["calendar_events"] = {}
 
@@ -136,25 +147,22 @@ cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
 month_days = cal.monthdayscalendar(now.year, now.month)
 day_names = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-# Render Day Header Titles
+# Day Headers
 c_headers = st.columns(7)
 for idx, name in enumerate(day_names):
-    c_headers[idx].markdown(f"<b style='color:#94A3B8; text-align:center; display:block;'>{name}</b>", unsafe_allow_html=True)
+    c_headers[idx].markdown(f"<b style='color:#94A3B8; text-align:center; display:block; margin-bottom: 10px;'>{name}</b>", unsafe_allow_html=True)
 
-# Loop and render weeks as interactive button arrays
+# Compact Row Loop Mapping Execution
 for week in month_days:
     c_days = st.columns(7)
     for idx, day in enumerate(week):
         if day == 0:
-            c_days[idx].markdown("<div style='color:#334155; text-align:center; padding:12px;'>•</div>", unsafe_allow_html=True)
+            c_days[idx].markdown("<div style='color:#334155; text-align:center; padding:10px;'>•</div>", unsafe_allow_html=True)
         else:
             day_key = f"day_{day}"
             has_event = day_key in st.session_state["calendar_events"] and st.session_state["calendar_events"][day_key].strip() != ""
-            
-            # Format text label displaying inside the square container box boundary 
             display_label = f"{day} 🔵" if has_event else f"{day}"
             
-            # Isolate the current actual tracking date grid node
             if day == now.day:
                 st.markdown('<div class="current-day-btn">', unsafe_allow_html=True)
                 with c_days[idx].popover(display_label, use_container_width=True):
