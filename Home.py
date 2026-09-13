@@ -174,28 +174,17 @@ if secure_gate_protocol():
     st.markdown("---")
 
     # 📜 INTEGRATED MOTIVATIONAL PANEL SECTIONS
-    quote_col1, quote_col2 = st.columns(2, gap="large")
+    quote_col1 = st.columns(1, gap="large")
     
     with quote_col1:
         st.markdown("""
-        <div class="quote-card-container">
-            <p class="sinek-quote">
-                "A star wants to see himself rise to the top. <br/>
-                <span style='color: #94A3B8;'>A leader wants to see those around him rise to the top."</span>
-            </p>
-            <p class="sinek-author">— Simon Sinek</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-    with quote_col2:
-        st.markdown("""
         <div class="quote-card-container" style="border-color: rgba(255, 0, 127, 0.25);">
             <p style="color: #94A3B8; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
-                ✍️ Strategic Muscle Memory Log
-            </p>
-            <p class="calligraphy-text">
-                Building up that Muscle Memory
-            </p>
+               <p class="sinek-quote">
+                               "A star wants to see himself rise to the top. <br/>
+                               <span style='color: #94A3B8;'>A leader wants to see those around him rise to the top."</span>
+                           </p>
+                           <p class="sinek-author">— Simon Sinek</p>
         </div>
         """, unsafe_allow_html=True)
 
