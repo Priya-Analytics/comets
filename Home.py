@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 
-# Force strict cinematic wide-viewport configuration
+# Force strict wide-viewport layout configuration
 st.set_page_config(page_title="comets | Core Matrix Control", layout="wide", page_icon="☄️")
 
 # ☄️ HIGH-END GRAPHICAL INTERFACE OVERLAY OVERRIDES (CYBERPUNK GLASSMORPHISM)
@@ -106,7 +106,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 🌌 LIVE HIGH-VELOCITY SPACE FIELD & PHOTON COMET MATRIX ENGINE
-# Injects an upgraded canvas frame running 3D-angled trailing plasma comets infinitely
 st.components.v1.html("""
 <canvas id="plasmaCometCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020409; z-index: -999; pointer-events: none;"></canvas>
 <script>
@@ -120,7 +119,6 @@ st.components.v1.html("""
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Deep space background field elements mapping
     const spaceDust = [];
     for(let i = 0; i < 350; i++) {
         spaceDust.push({
@@ -131,7 +129,6 @@ st.components.v1.html("""
         });
     }
 
-    // Advanced dynamic plasma comets with speed vectors and chromatic flares
     let realComets = [
         { x: Math.random() * canvas.width, y: -100, dx: -7, dy: 7, size: 4, flare: '#38BDF8', glow: 'rgba(56,189,248,0.4)' },
         { x: Math.random() * canvas.width + 400, y: -100, dx: -9, dy: 9, size: 3, flare: '#F43F5E', glow: 'rgba(244,63,94,0.4)' },
@@ -140,10 +137,9 @@ st.components.v1.html("""
     ];
 
     function renderCosmos() {
-        ctx.fillStyle = 'rgba(2, 4, 9, 0.3)'; // Creates a beautiful smooth motion blurring tail drag
+        ctx.fillStyle = 'rgba(2, 4, 9, 0.3)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw background stardust field
         for(let particle of spaceDust) {
             ctx.fillStyle = `rgba(255, 255, 255, ${particle.sparkle})`;
             ctx.beginPath();
@@ -154,18 +150,14 @@ st.components.v1.html("""
             if(particle.sparkle > 1) particle.sparkle = 1;
         }
 
-        // Draw realistic falling plasma comets
         for(let comet of realComets) {
             ctx.save();
-            
-            // Generate glowing comet core coordinates context
             let tailLength = 22 * comet.dy;
             let cometGradient = ctx.createLinearGradient(comet.x, comet.y, comet.x - comet.dx * 18, comet.y - comet.dy * 18);
-            cometGradient.addColorStop(0, '#FFFFFF'); // Nuclear blinding core head
-            cometGradient.addColorStop(0.15, comet.flare); // Primary color shockwave flare
-            cometGradient.addColorStop(1, 'transparent'); // Smoothly disintegrating space dust tail
+            cometGradient.addColorStop(0, '#FFFFFF');
+            cometGradient.addColorStop(0.15, comet.flare);
+            cometGradient.addColorStop(1, 'transparent');
 
-            // Inject real-time Gaussian neon light blur shadows
             ctx.shadowColor = comet.flare;
             ctx.shadowBlur = 18;
 
@@ -176,19 +168,16 @@ st.components.v1.html("""
             ctx.moveTo(comet.x, comet.y);
             ctx.lineTo(comet.x - comet.dx * 16, comet.y - comet.dy * 16);
             ctx.stroke();
-            
             ctx.restore();
 
-            // Drive coordinates down across spatial vectors
             comet.x += comet.dx;
             comet.y += comet.dy;
 
-            // Reset loop vectors cleanly if object transcends boundaries
             if(comet.y > canvas.height + 200 || comet.x < -200 || comet.x > canvas.width + 200) {
                 comet.x = Math.random() * canvas.width + canvas.width/3;
                 comet.y = -100;
                 comet.dy = Math.random() * 5 + 6;
-                comet.dx = -comet.dy; // Enforces a true matching 45-degree trajectory downward slash
+                comet.dx = -comet.dy;
             }
         }
         requestAnimationFrame(renderCosmos);
@@ -202,7 +191,6 @@ if "master_password" not in st.session_state: st.session_state["master_password"
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
 def secure_gate_protocol():
-    # PHASE A: FIRST-TIME PLATFORM INITIALIZATION
     if st.session_state["master_password"] is None:
         st.markdown('<div class="auth-terminal-box">', unsafe_allow_html=True)
         st.markdown('<div class="terminal-header">🛰️ NETWORK SHIELD: CONFIGURE ENCRYPTION SECTOR</div>', unsafe_allow_html=True)
@@ -221,11 +209,9 @@ def secure_gate_protocol():
         st.markdown('</div>', unsafe_allow_html=True)
         return False
         
-    # PHASE B: VERIFIED SECURITY CHANNEL ACCESS
     if st.session_state["authenticated"]:
         return True
         
-        # PHASE C: THE QUANTUM TERMINAL INTERFACE LOGIN FORM (CONTINUED)
     st.markdown('<div class="auth-terminal-box">', unsafe_allow_html=True)
     st.markdown('<div class="terminal-header">🔒 ACCESS LOCK: ENTRY CREDENTIAL MANDATORY</div>', unsafe_allow_html=True)
     
@@ -251,7 +237,7 @@ def secure_gate_protocol():
 
 # 🚀 RUN LIVE PLATFORM DASHBOARD IF SYSTEM IS FULLY AUTHORIZED
 if secure_gate_protocol():
-    # Narrow sidebar branding menu panel items configuration
+    # Sidebar config
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown("---")
     uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
@@ -260,12 +246,11 @@ if secure_gate_protocol():
         st.session_state["authenticated"] = False
         st.rerun()
 
-    # MAIN WORKSPACE HEADER VIEWPORTS
+        # MAIN WORKSPACE HEADER VIEWPORTS
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
 
-    # FILE INGESTION SCRPAD RENDERING UTILITY DATA LOOPS
     if uploaded_file is not None:
         try:
             custom_df = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
@@ -305,10 +290,29 @@ if secure_gate_protocol():
     st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
     st.markdown("---")
 
-    # ENVIRONMENT INTEGRITY METRICS SUMMARY BLOCKS
-    st.subheader("🌐 Telemetry Systems Pipeline Verification")
-    m_col1, m_col2, m_col3 = st.columns(3)
-    with m_col1: st.metric(label="SQL Server Node Connection", value="10 Tables Online")
-    with m_col2: st.metric(label="Python Execution Core", value="Active Runtime")
-    with m_col3: st.metric(label="Power BI Frame Containers", value="Telemetry Ready")
+    # 🌐 ➕ NEW REPLACEMENT LAYER: THE COMPLETE SUPPLY CHAIN WORKFLOW FLOWPLACE
+    st.subheader("🌐 Supply Chain End-to-End Operational Flow")
+    st.markdown("<p style='color:#94A3B8; font-size:13px;'>Track the global product trajectory across connected logistical network nodes.</p>", unsafe_allow_html=True)
 
+    # Use structural layout metric columns to map the flow stages sequential paths
+    flow_col1, flow_col2, flow_col3, flow_col4, flow_col5 = st.columns(5)
+
+    with flow_col1:
+        st.metric(label="Stage 1: Sourcing", value="Procurement", delta="Supplier SLA Risk")
+        st.caption("📦 Vendor Component Intake")
+
+    with flow_col2:
+        st.metric(label="Stage 2: Planning", value="Demand Forecast", delta="Inventory Levels", delta_color="off")
+        st.caption("📈 Volumetric Predictives")
+
+    with flow_col3:
+        st.metric(label="Stage 3: Operations", value="Manufacturing", delta="Line Downtime")
+        st.caption("🏭 Assembly Throughput Logs")
+
+    with flow_col4:
+        st.metric(label="Stage 4: Transit", value="Carrier Freight", delta="Last-Mile Route")
+        st.caption("🚢 Intermodal Delivery Flow")
+
+    with flow_col5:
+        st.metric(label="Stage 5: Fulfillment", value="Omnichannel", delta="Customer Returns", delta_color="inverse")
+        st.caption("🛒 Shelf-to-Customer Dispatch")
