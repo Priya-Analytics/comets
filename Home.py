@@ -246,7 +246,7 @@ if secure_gate_protocol():
         st.session_state["authenticated"] = False
         st.rerun()
 
-        # MAIN WORKSPACE HEADER VIEWPORTS
+           # MAIN WORKSPACE HEADER VIEWPORTS
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
@@ -288,31 +288,3 @@ if secure_gate_protocol():
         st.rerun()
         
     st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
-    st.markdown("---")
-
-    # 🌐 ➕ NEW REPLACEMENT LAYER: THE COMPLETE SUPPLY CHAIN WORKFLOW FLOWPLACE
-    st.subheader("🌐 Supply Chain End-to-End Operational Flow")
-    st.markdown("<p style='color:#94A3B8; font-size:13px;'>Track the global product trajectory across connected logistical network nodes.</p>", unsafe_allow_html=True)
-
-    # Use structural layout metric columns to map the flow stages sequential paths
-    flow_col1, flow_col2, flow_col3, flow_col4, flow_col5 = st.columns(5)
-
-    with flow_col1:
-        st.metric(label="Stage 1: Sourcing", value="Procurement", delta="Supplier SLA Risk")
-        st.caption("📦 Vendor Component Intake")
-
-    with flow_col2:
-        st.metric(label="Stage 2: Planning", value="Demand Forecast", delta="Inventory Levels", delta_color="off")
-        st.caption("📈 Volumetric Predictives")
-
-    with flow_col3:
-        st.metric(label="Stage 3: Operations", value="Manufacturing", delta="Line Downtime")
-        st.caption("🏭 Assembly Throughput Logs")
-
-    with flow_col4:
-        st.metric(label="Stage 4: Transit", value="Carrier Freight", delta="Last-Mile Route")
-        st.caption("🚢 Intermodal Delivery Flow")
-
-    with flow_col5:
-        st.metric(label="Stage 5: Fulfillment", value="Omnichannel", delta="Customer Returns", delta_color="inverse")
-        st.caption("🛒 Shelf-to-Customer Dispatch")
