@@ -8,15 +8,61 @@ st.set_page_config(page_title="comets | Core Matrix Control", layout="wide", pag
 # ☄️ HIGH-END GRAPHICAL INTERFACE OVERLAY OVERRIDES (CYBERPUNK GLASSMORPHISM)
 st.markdown("""
 <style>
-    /* Force Streamlit layers to be completely transparent so the canvas stars show through */
-    .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
-        background: transparent !important;
-        background-color: transparent !important;
+    /* 🌠 ADVANCED PURE CSS INFINITE SPACE STARDUST & FALLING COMETS ENGINE */
+    .stApp {
+        background-color: #03060f !important;
+        background-image: 
+            radial-gradient(1px 1px at 20px 30px, #ffffff, transparent),
+            radial-gradient(1px 1px at 75px 140px, #ffffff, transparent),
+            radial-gradient(1.5px 1.5px at 140px 70px, #93c5fd, transparent),
+            radial-gradient(2px 2px at 250px 290px, #ffffff, transparent),
+            radial-gradient(1px 1px at 310px 420px, #93c5fd, transparent),
+            radial-gradient(1.5px 1.5px at 450px 110px, #ffffff, transparent);
+        background-size: 550px 550px;
+        position: relative;
+        overflow: hidden;
     }
+
+    /* Trajectory Animation Mechanics for Falling Space Rocks */
+    @keyframes comet-trajectory-burn {
+        0% { transform: translateY(-120px) translateX(120px) rotate(-45deg); opacity: 0; }
+        5% { opacity: 1; }
+        70% { opacity: 1; }
+        100% { transform: translateY(115vh) translateX(-115vw) rotate(-45deg); opacity: 0; }
+    }
+
+    /* Real Plasma Comet 1 (Neon Cyan) */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: -10%; right: -10%;
+        width: 4px; height: 160px;
+        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(56,189,248,0.9) 20%, rgba(30,58,138,0) 100%);
+        filter: drop-shadow(0px 0px 8px #38bdf8);
+        border-radius: 4px;
+        animation: comet-trajectory-burn 6s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Real Plasma Comet 2 (Crimson Flare) */
+    .stApp::after {
+        content: "";
+        position: fixed;
+        top: -20%; right: 30%;
+        width: 3px; height: 110px;
+        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(244,63,94,0.8) 25%, rgba(159,18,57,0) 100%);
+        filter: drop-shadow(0px 0px 10px #f43f5e);
+        border-radius: 4px;
+        animation: comet-trajectory-burn 11s linear infinite;
+        animation-delay: 2.5s;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
     html, body {
-        background-color: #020409 !important;
+        background-color: #03060f !important;
         overflow-x: hidden;
-        color: #E2E8F0;
     }
     
     /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH OVERRIDE */
@@ -24,58 +70,43 @@ st.markdown("""
         min-width: 190px !important;
         max-width: 230px !important;
         background-color: rgba(4, 6, 12, 0.96) !important;
-        border-right: 1px solid rgba(56, 189, 248, 0.15) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
     
-    /* 🔒 CYBERPUNK ACCESS SECURITY GATEWAY CONTAINER */
+    /* 🔒 CLEANED SECURITY GATEWAY CONTAINER (BLUE BORDER & GLOW REMOVED) */
     .auth-terminal-box {
-        background: rgba(10, 15, 30, 0.8) !important;
-        border: 1px solid rgba(56, 189, 248, 0.35) !important;
+        background: rgba(14, 20, 38, 0.85) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px;
         padding: 35px !important;
         max-width: 550px;
-        margin: 5% auto !important;
-        box-shadow: 0 0 40px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.1);
+        margin: 8% auto !important;
         position: relative;
         z-index: 999;
     }
     
     .terminal-header {
         font-family: 'Courier New', monospace;
-        color: #38BDF8;
+        color: #94a3b8;
         font-size: 13px;
         letter-spacing: 2px;
         margin-bottom: 20px;
         text-transform: uppercase;
-        border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         padding-bottom: 8px;
     }
 
     /* Top-Secret Encrypted CEO container card */
     .ceo-terminal {
-        background: rgba(11, 19, 43, 0.7) !important;
-        border: 1px solid rgba(56, 189, 248, 0.25) !important;
+        background: rgba(14, 20, 38, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px !important;
         padding: 25px !important;
         position: relative;
         z-index: 10;
-        box-shadow: 0 0 35px rgba(56, 189, 248, 0.15);
         margin-top: 15px;
-    }
-    
-    /* Server Active User Database UI Box */
-    .db-terminal {
-        background: rgba(9, 13, 26, 0.75) !important;
-        border: 1px solid rgba(16, 185, 129, 0.3) !important;
-        backdrop-filter: blur(16px) !important;
-        border-radius: 14px !important;
-        padding: 20px !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.1);
-        margin-top: 25px;
-        position: relative;
-        z-index: 10;
     }
     
     .ceo-title {
@@ -96,99 +127,18 @@ st.markdown("""
         border-left: 3px solid #F43F5E;
         padding-left: 15px;
         margin: 15px 0;
-        text-shadow: 0 0 8px rgba(248,250,252,0.15);
     }
     
-    .main-title { font-size: 44px; font-weight: 800; color: #F8FAFC; text-shadow: 0 0 25px rgba(56,189,248,0.6); position: relative; z-index: 10; }
+    .main-title { font-size: 44px; font-weight: 800; color: #F8FAFC; position: relative; z-index: 10; }
     div[data-testid="stFileUploaderDropzone"] {
         background-color: rgba(15, 23, 42, 0.6) !important;
-        border: 1px dashed rgba(56, 189, 248, 0.3) !important;
+        border: 1px dashed rgba(255, 255, 255, 0.15) !important;
         border-radius: 10px !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 🌌 LIVE HIGH-VELOCITY SPACE FIELD & PHOTON COMET MATRIX ENGINE
-st.components.v1.html("""
-<canvas id="plasmaCometCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020409; z-index: -9999; pointer-events: none;"></canvas>
-<script>
-    const canvas = document.getElementById('plasmaCometCanvas');
-    const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const spaceDust = [];
-    for(let i = 0; i < 350; i++) {
-        spaceDust.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 1.8,
-            sparkle: Math.random()
-        });
-    }
-
-    let realComets = [
-        { x: Math.random() * canvas.width, y: -100, dx: -7, dy: 7, size: 4, flare: '#38BDF8', glow: 'rgba(56,189,248,0.4)' },
-        { x: Math.random() * canvas.width + 400, y: -100, dx: -9, dy: 9, size: 3, flare: '#F43F5E', glow: 'rgba(244,63,94,0.4)' },
-        { x: Math.random() * canvas.width - 300, y: -100, dx: -6, dy: 6, size: 5, flare: '#A855F7', glow: 'rgba(168,85,247,0.4)' },
-        { x: Math.random() * canvas.width + 100, y: -100, dx: -11, dy: 11, size: 2.5, flare: '#F59E0B', glow: 'rgba(245,158,11,0.4)' }
-    ];
-
-    function renderCosmos() {
-        ctx.fillStyle = 'rgba(2, 4, 9, 0.3)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        for(let particle of spaceDust) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${particle.sparkle})`;
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            ctx.fill();
-            particle.sparkle += (Math.random() - 0.5) * 0.04;
-            if(particle.sparkle < 0.1) particle.sparkle = 0.1;
-            if(particle.sparkle > 1) particle.sparkle = 1;
-        }
-
-        for(let comet of realComets) {
-            ctx.save();
-            let cometGradient = ctx.createLinearGradient(comet.x, comet.y, comet.x - comet.dx * 18, comet.y - comet.dy * 18);
-            cometGradient.addColorStop(0, '#FFFFFF');
-            cometGradient.addColorStop(0.15, comet.flare);
-            cometGradient.addColorStop(1, 'transparent');
-
-            ctx.shadowColor = comet.flare;
-            ctx.shadowBlur = 18;
-
-            ctx.strokeStyle = cometGradient;
-            ctx.lineWidth = comet.size;
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(comet.x, comet.y);
-            ctx.lineTo(comet.x - comet.dx * 16, comet.y - comet.dy * 16);
-            ctx.stroke();
-            ctx.restore();
-
-            comet.x += comet.dx;
-            comet.y += comet.dy;
-
-            if(comet.y > canvas.height + 200 || comet.x < -200 || comet.x > canvas.width + 200) {
-                comet.x = Math.random() * canvas.width + canvas.width/3;
-                comet.y = -100;
-                comet.dy = Math.random() * 5 + 6;
-                comet.dx = -comet.dy;
-            }
-        }
-        requestAnimationFrame(renderCosmos);
-    }
-    renderCosmos();
-</script>
-""", height=0, scrolling=False)
-
-# 🔒 HIGH-SECURITY SERVER DATABASE EMULATION LAYER
+# 🔒 HIGH-SECURITY SERVER DATABASE EMULATION LAYER (USERNAME + PASSWORD)
 if "master_username" not in st.session_state: st.session_state["master_username"] = None
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
@@ -216,7 +166,6 @@ def secure_gate_protocol():
                 st.session_state["master_password"] = setup_pass
                 st.session_state["authenticated"] = True
                 
-                # Append to live server database monitor
                 if clean_user not in st.session_state["registered_users"]:
                     st.session_state["registered_users"].append(clean_user)
                     
@@ -227,7 +176,7 @@ def secure_gate_protocol():
         st.markdown('</div>', unsafe_allow_html=True)
         return False
         
-        # PHASE B: AUTHORIZED USER SESSION ALREADY ACTIVE (CONTINUED)
+    # PHASE B: AUTHORIZED USER SESSION ALREADY ACTIVE
     if st.session_state["authenticated"]:
         return True
         
@@ -273,7 +222,7 @@ if secure_gate_protocol():
         st.session_state["authenticated"] = False
         st.rerun()
 
-    # MAIN WORKSPACE HEADER VIEWPORTS
+       # MAIN WORKSPACE HEADER VIEWPORTS
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
@@ -315,15 +264,3 @@ if secure_gate_protocol():
         st.rerun()
         
     st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
-    st.markdown("---")
-
-    # 💾 LIVE SERVER ACTIVE PROFILE DATABASE REGISTRY
-    st.markdown('<div class="db-terminal">', unsafe_allow_html=True)
-    st.markdown("<h4 style='color: #10B981; font-family: monospace; font-weight: bold; margin-bottom: 5px;'>🟢 SERVER LOGS: ACTIVE USER RECORD DATABASE</h4>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #94A3B8; font-size: 12px; margin-bottom: 12px;'>Querying registered profile tokens from main cloud system arrays.</p>", unsafe_allow_html=True)
-    
-    for registered_user in st.session_state["registered_users"]:
-        st.markdown(f"👤 <span style='font-family: monospace; color: #F8FAFC;'>{registered_user}</span> <span style='color: #10B981; font-size: 11px;'>[Status: Secure Node Connected]</span>", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-                
