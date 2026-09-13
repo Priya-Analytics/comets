@@ -8,12 +8,15 @@ st.set_page_config(page_title="comets | Core Matrix Control", layout="wide", pag
 # ☄️ HIGH-END GRAPHICAL INTERFACE OVERLAY OVERRIDES (CYBERPUNK GLASSMORPHISM)
 st.markdown("""
 <style>
-    .stApp {
+    /* Force Streamlit layers to be completely transparent so the canvas stars show through */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
         background: transparent !important;
+        background-color: transparent !important;
     }
     html, body {
         background-color: #020409 !important;
         overflow-x: hidden;
+        color: #E2E8F0;
     }
     
     /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH OVERRIDE */
@@ -26,8 +29,8 @@ st.markdown("""
     
     /* 🔒 CYBERPUNK ACCESS SECURITY GATEWAY CONTAINER */
     .auth-terminal-box {
-        background: rgba(10, 15, 30, 0.75) !important;
-        border: 1px solid rgba(56, 189, 248, 0.3) !important;
+        background: rgba(10, 15, 30, 0.8) !important;
+        border: 1px solid rgba(56, 189, 248, 0.35) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px;
         padding: 35px !important;
@@ -51,7 +54,7 @@ st.markdown("""
 
     /* Top-Secret Encrypted CEO container card */
     .ceo-terminal {
-        background: rgba(11, 19, 43, 0.65) !important;
+        background: rgba(11, 19, 43, 0.7) !important;
         border: 1px solid rgba(56, 189, 248, 0.25) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px !important;
@@ -60,6 +63,19 @@ st.markdown("""
         z-index: 10;
         box-shadow: 0 0 35px rgba(56, 189, 248, 0.15);
         margin-top: 15px;
+    }
+    
+    /* Server Active User Database UI Box */
+    .db-terminal {
+        background: rgba(9, 13, 26, 0.75) !important;
+        border: 1px solid rgba(16, 185, 129, 0.3) !important;
+        backdrop-filter: blur(16px) !important;
+        border-radius: 14px !important;
+        padding: 20px !important;
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.1);
+        margin-top: 25px;
+        position: relative;
+        z-index: 10;
     }
     
     .ceo-title {
@@ -94,7 +110,7 @@ st.markdown("""
 
 # 🌌 LIVE HIGH-VELOCITY SPACE FIELD & PHOTON COMET MATRIX ENGINE
 st.components.v1.html("""
-<canvas id="plasmaCometCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020409; z-index: -999; pointer-events: none;"></canvas>
+<canvas id="plasmaCometCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #020409; z-index: -9999; pointer-events: none;"></canvas>
 <script>
     const canvas = document.getElementById('plasmaCometCanvas');
     const ctx = canvas.getContext('2d');
@@ -177,6 +193,10 @@ if "master_username" not in st.session_state: st.session_state["master_username"
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
+# Persistent server memory log array for usernames
+if "registered_users" not in st.session_state:
+    st.session_state["registered_users"] = ["System_Admin", "Logistics_Core"]
+
 def secure_gate_protocol():
     # PHASE A: FIRST-TIME SERVER DATABASE INITIALIZATION
     if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
@@ -191,9 +211,15 @@ def secure_gate_protocol():
             if setup_user.strip() == "":
                 st.error("Username cannot be blank!")
             elif setup_pass == confirm_pass and setup_pass != "":
-                st.session_state["master_username"] = setup_user.strip()
+                clean_user = setup_user.strip()
+                st.session_state["master_username"] = clean_user
                 st.session_state["master_password"] = setup_pass
                 st.session_state["authenticated"] = True
+                
+                # Append to live server database monitor
+                if clean_user not in st.session_state["registered_users"]:
+                    st.session_state["registered_users"].append(clean_user)
+                    
                 st.success("Account registered securely. Launching...")
                 st.rerun()
             else:
@@ -201,7 +227,7 @@ def secure_gate_protocol():
         st.markdown('</div>', unsafe_allow_html=True)
         return False
         
-    # PHASE B: AUTHORIZED USER SESSION ALREADY ACTIVE
+        # PHASE B: AUTHORIZED USER SESSION ALREADY ACTIVE (CONTINUED)
     if st.session_state["authenticated"]:
         return True
         
@@ -217,6 +243,10 @@ def secure_gate_protocol():
         if st.button("⚡ Verify Profile", use_container_width=True):
             if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
                 st.session_state["authenticated"] = True
+                
+                if input_user not in st.session_state["registered_users"]:
+                    st.session_state["registered_users"].append(input_user)
+                    
                 st.rerun()
             else:
                 st.error("🛑 ACCESS DENIED: Invalid User or Password.")
@@ -231,9 +261,9 @@ def secure_gate_protocol():
     st.markdown('</div>', unsafe_allow_html=True)
     return False
 
-# 🚀 RUN LIVE PLATFORM DASHBOARD IF BOTH PARAMETERS MATCH (CONTINUED)
+# 🚀 RUN LIVE PLATFORM DASHBOARD IF BOTH PARAMETERS MATCH
 if secure_gate_protocol():
-    # Narrow sidebar configuration with dynamic profile greeting
+    # Narrow sidebar configuration
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown(f"<p style='color:#38BDF8; font-size:11px;'>Active Session: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
     st.sidebar.markdown("---")
@@ -285,5 +315,15 @@ if secure_gate_protocol():
         st.rerun()
         
     st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
+    st.markdown("---")
 
+    # 💾 LIVE SERVER ACTIVE PROFILE DATABASE REGISTRY
+    st.markdown('<div class="db-terminal">', unsafe_allow_html=True)
+    st.markdown("<h4 style='color: #10B981; font-family: monospace; font-weight: bold; margin-bottom: 5px;'>🟢 SERVER LOGS: ACTIVE USER RECORD DATABASE</h4>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #94A3B8; font-size: 12px; margin-bottom: 12px;'>Querying registered profile tokens from main cloud system arrays.</p>", unsafe_allow_html=True)
+    
+    for registered_user in st.session_state["registered_users"]:
+        st.markdown(f"👤 <span style='font-family: monospace; color: #F8FAFC;'>{registered_user}</span> <span style='color: #10B981; font-size: 11px;'>[Status: Secure Node Connected]</span>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
+                
