@@ -250,15 +250,4 @@ if check_password():
         # Render the custom formatted quotes container box block onto the viewport screen
         st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
 
-    # 🛰️ RIGHT COLUMN METRICS PANELS
-    with right_panel_col:
-        # Streamlined Chrono-Telemetry Panel (Only Time, Date, and Calendar)
-        st.markdown('<div class="right-widget-panel">', unsafe_allow_html=True)
-        st.markdown('<div class="widget-title">🛰️ Chrono-Telemetry Data</div>', unsafe_allow_html=True)
-        
-        time_str = datetime.now().strftime("%I:%M:%S %p")
-        date_str = datetime.now().strftime("%A, %B %d, %Y")
-        
-        st.markdown(f"**⏰ Station Time:** `{time_str}`")
-        st.markdown(f"**📅 Current Date:** `{date_str}`")
-        
+   
