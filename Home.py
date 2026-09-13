@@ -172,7 +172,7 @@ st.components.v1.html("""
 </script>
 """, height=0, scrolling=False)
 
-# 🔒 HIGH-SECURITY SERVER DATABASE EMULATION LAYER (USERNAME + PASSWORD)
+# 🔒 HIGH-SECURITY SERVER DATABASE EMULATION LAYER
 if "master_username" not in st.session_state: st.session_state["master_username"] = None
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
@@ -205,7 +205,7 @@ def secure_gate_protocol():
     if st.session_state["authenticated"]:
         return True
         
-    # PHASE C: THE QUANTUM TERMINAL INTERFACE LOGIN FORM (DUAL PARAMETER CHECK)
+    # PHASE C: THE QUANTUM TERMINAL INTERFACE LOGIN FORM
     st.markdown('<div class="auth-terminal-box">', unsafe_allow_html=True)
     st.markdown('<div class="terminal-header">🔒 ACCESS SHIELD: ACCOUNT VERIFICATION MANDATORY</div>', unsafe_allow_html=True)
     
@@ -215,7 +215,6 @@ def secure_gate_protocol():
     col_unlock, col_reset = st.columns(2)
     with col_unlock:
         if st.button("⚡ Verify Profile", use_container_width=True):
-            # Strict dual credential validation check loop
             if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
                 st.session_state["authenticated"] = True
                 st.rerun()
@@ -234,7 +233,7 @@ def secure_gate_protocol():
 
 # 🚀 RUN LIVE PLATFORM DASHBOARD IF BOTH PARAMETERS MATCH (CONTINUED)
 if secure_gate_protocol():
-    # Narrow sidebar configuration with dynamic greeting
+    # Narrow sidebar configuration with dynamic profile greeting
     st.sidebar.markdown("# ☄️ comets")
     st.sidebar.markdown(f"<p style='color:#38BDF8; font-size:11px;'>Active Session: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
     st.sidebar.markdown("---")
@@ -286,3 +285,5 @@ if secure_gate_protocol():
         st.rerun()
         
     st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
+
+
