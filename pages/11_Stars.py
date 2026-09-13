@@ -14,9 +14,17 @@ if "authenticated" not in st.session_state or not st.session_state["authenticate
 st.sidebar.markdown("# ☄️ comets")
 st.sidebar.info("Section: Personal Code Logger")
 
-# CSS for glassy quote cards
+# 🎨 INJECT COMPACT GLOW COMPONENT OVERLAY STYLES
 st.markdown("""
 <style>
+    /* Small Calendar Sizing Adjustments */
+    div[data-testid="stDateInput"] {
+        max-width: 160px !important;
+    }
+    div[data-testid="stDateInput"] > label {
+        display: none !important; /* Remove Target Practice text label */
+    }
+    
     .quote-card {
         background: rgba(14, 20, 38, 0.7) !important;
         border: 1px solid rgba(56, 189, 248, 0.2) !important;
@@ -25,11 +33,18 @@ st.markdown("""
         margin-bottom: 10px;
     }
     .widget-panel {
-        background: rgba(14, 20, 38, 0.6) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        background: rgba(14, 20, 38, 0.65) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        backdrop-filter: blur(16px) !important;
         border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
+        padding: 18px;
+        margin-bottom: 15px;
+    }
+    .stat-val {
+        font-family: 'Courier New', monospace;
+        color: #38BDF8;
+        font-size: 24px;
+        font-weight: bold;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -37,34 +52,72 @@ st.markdown("""
 st.title("✨ Stars: Code Practice Terminal")
 st.markdown("---")
 
-# Layout Split: Chrono-Telemetry on the Left, Quote Uploaders on the Right
-left_chrono, right_logger = st.columns([0.35, 0.65], gap="large")
+# Layout Split: Left Chrono & Trackers Panel, Right Data Logger Canvas
+left_widgets, right_logger = st.columns([0.35, 0.65], gap="large")
 
-with left_chrono:
+with left_widgets:
+    # 🛰️ WIDGET BOX 1: REAL-TIME IST CHRONO TELEMETRY
     st.markdown('<div class="widget-panel">', unsafe_allow_html=True)
-    st.subheader("🛰️ Chrono-Telemetry")
+    st.markdown("### 🛰️ Chrono-Telemetry (IST)")
     
-    time_str = datetime.now().strftime("%I:%M:%S %p")
-    date_str = datetime.now().strftime("%A, %B %d, %Y")
+    # Live Clock & Date via custom JavaScript execution layer
+    st.components.v1.html("""
+    <div style="color: #E2E8F0; font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.8;">
+        <div>⏰ <b>Station Time:</b> <span id="ist-clock" style="color: #38BDF8; font-family: monospace; background: #090D1A; padding: 2px 6px; border-radius: 4px;">--:--:--</span></div>
+        <div style="margin-top: 8px;">📅 <b>Current Date:</b> <span id="ist-date" style="color: #10B981;">--------</span></div>
+    </div>
+    <script>
+        function updateIST() {
+            const now = new Date();
+            // Convert to Indian Standard Time (Asia/Kolkata) string format parameters
+            const timeOptions = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateOptions = { timeZone: 'Asia/Kolkata', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            document.getElementById('ist-clock').textContent = now.toLocaleTimeString('en-US', timeOptions);
+            document.getElementById('ist-date').textContent = now.toLocaleDateString('en-US', dateOptions);
+        }
+        setInterval(updateIST, 1000);
+        updateIST();
+    </script>
+    """, height=65)
     
-    st.markdown(f"**⏰ Station Time:** `{time_str}`")
-    st.markdown(f"**📅 Current Date:** `{date_str}`")
+    # Downsized compact calendar select module layout
+    selected_date = st.date_input("", value=datetime.now(), key="stars_calendar")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # 🔥 WIDGET BOX 2: DAILY & MONTHLY STREAK COUNTERS
+    st.markdown('<div class="widget-panel">', unsafe_allow_html=True)
+    st.markdown("### 🔥 Practice Streaks")
+    s_col1, s_col2 = st.columns(2)
+    with s_col1:
+        st.markdown("⚡ **Daily Streak**")
+        st.markdown('<div class="stat-val">5 Days</div>', unsafe_allow_html=True)
+    with s_col2:
+        st.markdown("🌙 **Monthly Streak**")
+        st.markdown('<div class="stat-val">18 Days</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # 📋 WIDGET BOX 3: RE-LOCATED TO-DO LIST TASK TRACKER
+    st.markdown('<div class="widget-panel">', unsafe_allow_html=True)
+    st.markdown("### 📋 Practice Checklist")
+    t1 = st.checkbox("💻 Log Today's SQL Query Snippet", key="star_t1")
+    t2 = st.checkbox("🐍 Log Today's Python Function", key="star_t2")
+    t3 = st.checkbox("📄 Add Documentation Notes", key="star_t3")
     
-    selected_date = st.date_input("📅 Target Practice Calendar View:", value=datetime.now(), key="stars_calendar")
-    st.markdown(f"<p style='font-size:11px; color:#8B949E;'>Log Entry Context: Year {selected_date.year}</p>", unsafe_allow_html=True)
+    done = sum([t1, t2, t3])
+    st.progress(done / 3.0)
+    st.markdown(f"<p style='font-size:12px; color:#38BDF8; font-family:monospace; margin-top:5px;'>Sync Level: {done}/3 Completed</p>", unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 with right_logger:
-    st.subheader("✍️ Log Daily SQL & Python Practice Snippets")
+    st.subheader("✍️ Log Daily Practice Snippets")
     
-    # Initialize the local workspace database memory
     if "saved_quotes" not in st.session_state:
         st.session_state["saved_quotes"] = [
-            {"type": "SQL", "text": "SELECT SKU_ID, SUM(Historical_Orders) FROM Demand_History GROUP BY SKU_ID;", "date": "2026-09-12"},
-            {"type": "Python", "text": "df['Stock_Value'] = df['Current_Stock_Level'] * df['Unit_Cost_USD']", "date": "2026-09-12"}
+            {"type": "SQL", "text": "SELECT SKU_ID, SUM(Historical_Orders) FROM Demand_History GROUP BY SKU_ID;", "date": "2026-09-13"},
+            {"type": "Python", "text": "df['Stock_Value'] = df['Current_Stock_Level'] * df['Unit_Cost_USD']", "date": "2026-09-13"}
         ]
     
-    # Input forms
     q_type = st.selectbox("Select Language Type:", ["SQL", "Python", "Documentation Notes"])
     q_text = st.text_area("Paste code snippet or logic concept here:")
     
@@ -76,7 +129,7 @@ with right_logger:
                 "date": datetime.now().strftime("%Y-%m-%d")
             }
             st.session_state["saved_quotes"].insert(0, new_entry)
-            st.success("Snippet synchronized into workspace log matrix!")
+            st.success("Snippet synchronized successfully!")
             st.rerun()
         else:
             st.error("Text field cannot be empty.")
@@ -84,7 +137,6 @@ with right_logger:
     st.markdown("---")
     st.subheader("📜 Historical Practice Vault")
     
-    # Loop out and render saved items
     for item in st.session_state["saved_quotes"]:
         badge_color = "#38BDF8" if item["type"] == "SQL" else "#A855F7" if item["type"] == "Python" else "#F43F5E"
         st.markdown(f"""
