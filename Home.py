@@ -8,72 +8,13 @@ st.set_page_config(page_title="comets | Core Matrix Control", layout="wide", pag
 # ☄️ HIGH-END GRAPHICAL INTERFACE OVERLAY OVERRIDES (CYBERPUNK GLASSMORPHISM)
 st.markdown("""
 <style>
-    /* 🌠 ADVANCED PURE CSS INFINITE SPACE STARDUST & FALLING COMETS ENGINE */
-    .stApp {
-        background-color: #03060f !important;
-        background-image: 
-            radial-gradient(1px 1px at 20px 30px, #ffffff, transparent),
-            radial-gradient(1px 1px at 75px 140px, #ffffff, transparent),
-            radial-gradient(1.5px 1.5px at 140px 70px, #93c5fd, transparent),
-            radial-gradient(2px 2px at 250px 290px, #ffffff, transparent),
-            radial-gradient(1px 1px at 310px 420px, #93c5fd, transparent),
-            radial-gradient(1.5px 1.5px at 450px 110px, #ffffff, transparent);
-        background-size: 550px 550px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* Trajectory Animation Mechanics for Falling Space Rocks */
-    @keyframes comet-trajectory-burn {
-        0% { transform: translateY(-120px) translateX(120px) rotate(-45deg); opacity: 0; }
-        5% { opacity: 1; }
-        70% { opacity: 1; }
-        100% { transform: translateY(115vh) translateX(-115vw) rotate(-45deg); opacity: 0; }
-    }
-
-    /* Real Plasma Comet 1 (Neon Cyan) */
-    .stApp::before {
-        content: "";
-        position: fixed;
-        top: -10%; right: -10%;
-        width: 4px; height: 160px;
-        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(56,189,248,0.9) 20%, rgba(30,58,138,0) 100%);
-        filter: drop-shadow(0px 0px 8px #38bdf8);
-        border-radius: 4px;
-        animation: comet-trajectory-burn 6s linear infinite;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    /* Real Plasma Comet 2 (Crimson Flare) */
-    .stApp::after {
-        content: "";
-        position: fixed;
-        top: -20%; right: 30%;
-        width: 3px; height: 110px;
-        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(244,63,94,0.8) 25%, rgba(159,18,57,0) 100%);
-        filter: drop-shadow(0px 0px 10px #f43f5e);
-        border-radius: 4px;
-        animation: comet-trajectory-burn 11s linear infinite;
-        animation-delay: 2.5s;
-        pointer-events: none;
-        z-index: 0;
-    }
-    
-    html, body {
-        background-color: #03060f !important;
-        overflow-x: hidden;
-    }
-    
     /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH OVERRIDE */
     [data-testid="stSidebar"] {
         min-width: 190px !important;
         max-width: 230px !important;
-        background-color: rgba(4, 6, 12, 0.96) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
     
-    /* 🔒 CLEANED SECURITY GATEWAY CONTAINER (BLUE BORDER & GLOW REMOVED) */
+    /* 🔒 CLEAN ENTRY SECURITY GATEWAY CONTAINER */
     .auth-terminal-box {
         background: rgba(14, 20, 38, 0.85) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -222,7 +163,7 @@ if secure_gate_protocol():
         st.session_state["authenticated"] = False
         st.rerun()
 
-       # MAIN WORKSPACE HEADER VIEWPORTS
+    # MAIN WORKSPACE HEADER VIEWPORTS
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
