@@ -2,16 +2,16 @@ import streamlit as st
 import pandas as pd
 import random
 
-# Force strict wide-viewport layout configuration
+# Force strict cinematic wide-viewport configuration
 st.set_page_config(page_title="comets | Space Exploration", layout="wide", page_icon="🚀")
 
-# 🌌 INJECT VECTOR SPACE ACCENTS AND HIGH-CONTRAST COLORS MATCHING THE IMAGE
+# 🌌 INJECT THEME DESIGN, REMOVE SIDEBAR COMPLETELY, AND SETUP NAV STYLES
 st.markdown("""
 <style>
-    /* Google Fonts Calligraphy / Cursive font imports matching your sample writing */
+    /* Google Fonts Calligraphy / Cursive font imports */
     @import url('https://googleapis.com');
 
-    /* Gradient base matching the deep purple space nebula atmosphere */
+    /* Gradient base matching the deep purple space atmosphere */
     .stApp {
         background: radial-gradient(circle at 70% 20%, #1c0a35 0%, #0d041a 50%, #05010c 100%) !important;
         background-attachment: fixed !important;
@@ -23,12 +23,15 @@ st.markdown("""
         overflow-x: hidden;
     }
     
-    /* 🛠️ NARROW LEFT SIDEBAR PALETTE */
-    [data-testid="stSidebar"] {
-        min-width: 190px !important;
-        max-width: 230px !important;
-        background-color: rgba(13, 4, 26, 0.95) !important;
-        border-right: 1px solid rgba(255, 0, 127, 0.2) !important;
+    /* 🛠️ REMOVE AND HIDE THE LEFT SIDEBAR PANEL ENTIRELY */
+    [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {
+        display: none !important;
+        width: 0px !important;
+    }
+    
+    /* Adjust main content area to pull full width since sidebar is missing */
+    [data-testid="stAppViewContainer"] {
+        padding-left: 0px !important;
     }
     
     /* 🔒 SECURE LOGIN CONTAINER */
@@ -40,7 +43,7 @@ st.markdown("""
         padding: 35px !important;
         max-width: 500px;
         margin: 20px auto !important;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 0, 127, 0.15);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
     }
     
     .stTextInput>div>div>input {
@@ -56,10 +59,8 @@ st.markdown("""
         font-family: 'Montserrat', sans-serif;
         text-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 25px rgba(0, 212, 255, 0.3);
         letter-spacing: 1px;
-        position: relative; 
-        z-index: 10;
         text-align: center;
-        margin-top: 30px;
+        margin-top: 20px;
     }
     
     .sub-title-text {
@@ -69,32 +70,24 @@ st.markdown("""
         margin-bottom: 25px;
     }
     
-    div[data-testid="stFileUploaderDropzone"] {
-        background-color: rgba(5, 1, 12, 0.5) !important;
-        border: 1px dashed rgba(255, 0, 127, 0.3) !important;
-        border-radius: 10px !important;
-    }
-    
-    /* 📜 MOTIVATIONAL PORTFOLIO QUOTE CONTAINER */
+    /* 📜 MOTIVATIONAL QUOTE CONTAINER */
     .quote-card-container {
         background: rgba(26, 15, 50, 0.55) !important;
         border: 1px solid rgba(255, 0, 127, 0.25) !important;
-        backdrop-filter: blur(15px) !important;
+        backdrop-filter: blur(1px) !important;
         border-radius: 14px;
         padding: 35px;
         margin: 25px auto !important;
         max-width: 850px;
-        box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 0, 127, 0.1);
+        box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.4);
     }
     
-    /* 🖊️ CALLIGRAPHY TYPOGRAPHY OVERRIDE RULES FOR SIMON SINEK'S QUOTE */
     .calligraphy-text {
         font-family: 'Great Vibes', cursive, serif;
         font-size: 46px;
         color: #FFFFFF;
         text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
         line-height: 1.3;
-        padding: 5px 0;
         text-align: center;
     }
     
@@ -112,22 +105,20 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 🔒 SECURE SERVER DATABASE MEMORY INITIALIZATION
+# 🔒 SECURE SYSTEM MEMORY TRACKING HANDSHAKES
 if "master_username" not in st.session_state: st.session_state["master_username"] = None
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 if "show_login_form" not in st.session_state: st.session_state["show_login_form"] = False
 
-# Function to run authentication mechanics
+# Function to run authentication login window prompts
 def secure_gate_protocol():
     if st.session_state["authenticated"]:
         return True
 
-    # 🚀 HEADER WORDS BROUGHT DIRECTLY INTO THE SIGN IN PORTAL PAGE LAYOUT
     st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
     st.markdown("<p class='sub-title-text'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
 
-    # 🖊️ SIMON SINEK'S CALLIGRAPHY QUOTE
     st.markdown("""
     <div class="quote-card-container">
         <p class="calligraphy-text">
@@ -138,7 +129,6 @@ def secure_gate_protocol():
     </div>
     """, unsafe_allow_html=True)
 
-    # 🚀 INTERACTIVE SIGN IN TRIGGER BUTTON (BELOW THE QUOTE)
     if not st.session_state["show_login_form"]:
         col_btn_l, col_btn_mid, col_btn_r = st.columns([0.35, 0.30, 0.35])
         with col_btn_mid:
@@ -146,11 +136,8 @@ def secure_gate_protocol():
                 st.session_state["show_login_form"] = True
                 st.rerun()
                 
-    # EXPAND INPUT MODULES ONLY IF SIGN IN BUTTON IS TRIGGERED
     if st.session_state["show_login_form"]:
         st.markdown('<div class="login-form-wrapper">', unsafe_allow_html=True)
-        
-        # FIRST-TIME ACCOUNT SECTOR SETUP
         if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
             with st.form("server_database_setup_form"):
                 st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🚀 ROCKET ENGINE SETUP: INITIALIZE PORTAL PROFILE</p>", unsafe_allow_html=True)
@@ -167,17 +154,12 @@ def secure_gate_protocol():
                             st.session_state["master_username"] = setup_user.strip()
                             st.session_state["master_password"] = setup_pass
                             st.session_state["authenticated"] = True
-                            
-                            # REDIRECT PROTOCOL ACCELERATION: Switch directly to the Stars Subpage memory location hook
                             st.switch_page("pages/11_Stars.py")
-                        else:
-                            st.error("Passwords do not match.")
+                        else: st.error("Passwords do not match.")
                 with col_close1:
                     if st.form_submit_button("✖️ Close"):
                         st.session_state["show_login_form"] = False
                         st.rerun()
-                        
-        # STANDARD SECURITY PORTAL ACCESS CHALLENGE
         else:
             with st.form("security_access_gateway_form"):
                 st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🔒 SECURE TERMINAL GATEWAY LOGIN</p>", unsafe_allow_html=True)
@@ -189,11 +171,8 @@ def secure_gate_protocol():
                     if st.form_submit_button("⚡ Verify Token", use_container_width=True):
                         if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
                             st.session_state["authenticated"] = True
-                            
-                            # REDIRECT PROTOCOL ACCELERATION: Open Stars page directly
                             st.switch_page("pages/11_Stars.py")
-                        else:
-                            st.error("Invalid user credentials.")
+                        else: st.error("Invalid user credentials.")
                 with col_wipe:
                     if st.form_submit_button("❓ Reset Records", use_container_width=True):
                         st.session_state["master_username"] = None
@@ -205,22 +184,75 @@ def secure_gate_protocol():
                     if st.form_submit_button("✖️"):
                         st.session_state["show_login_form"] = False
                         st.rerun()
-                        
         st.markdown('</div>', unsafe_allow_html=True)
     return False
 
-# FALLBACK FOR SIDEBAR ACTION MANIFEST NAVIGATION SESSIONS (CONTINUED)
+# 🚀 RUN PLATFORM HUB WORKSPACE ONCE FULLY AUTHORIZED
 if secure_gate_protocol():
-    st.sidebar.markdown("# 🚀 comets")
-    st.sidebar.markdown(f"<p style='color:#00D4FF; font-size:11px;'>Mission Pilot: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
-    st.sidebar.markdown("---")
-    uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
-    st.sidebar.markdown("---")
-    if st.sidebar.button("🔒 Secure Cockpit / Exit", use_container_width=True):
-        st.session_state["authenticated"] = False
-        st.session_state["show_login_form"] = False
-        st.rerun()
+    # 🗺️ NEW REPLACED NAVIGATION INTERFACE BAR (MATCHING YOUR SKETCH DRAWING SHEET)
+    nav_col1, nav_col2, nav_col3 = st.columns([0.2, 0.6, 0.2])
+    
+    with nav_col1:
+        # Separate individual Home navigation trigger button
+        home_clicked = st.button("🏠 Home", use_container_width=True)
+        
+    with nav_col2:
+        # Dataset dropdown selector grouping all 10 analytics modules subpages together cleanly
+        selected_module = st.selectbox(
+            label="",
+            options=[
+                "Select Department Workspace Node...",
+                "Demand Forecasting",
+                "Inventory Optimization",
+                "Carrier Performance",
+                "Procurement Risk",
+                "Last Mile",
+                "Freight Audit",
+                "Manufacturing",
+                "Returns Logistics",
+                "Cross Dock",
+                "Omnichannel"
+            ],
+            label_visibility="collapsed"
+        )
+        
+    with nav_col3:
+        # Standalone button path shortcut linking to Stars
+        stars_clicked = st.button("✨ Stars", use_container_width=True)
 
-    # If the user manually navigates back to Home page after authentication, redirect them immediately to keep them on the Stars workspace
-    st.switch_page("pages/11_Stars.py")
+    # 🔀 REDIRECT MANIFEST ROUTING CONTROLLER RULES
+    if stars_clicked:
+        st.switch_page("pages/11_Stars.py")
+        
+    if selected_module != "Select Department Workspace Node...":
+                # Dynamic path page redirection mapper engine (CONTINUED)
+        page_mapping = {
+            "Demand Forecasting": "pages/1_Demand_Forecasting.py",
+            "Inventory Optimization": "pages/2_Inventory_Optimization.py",
+            "Carrier Performance": "pages/3_Carrier_Performance.py",
+            "Procurement Risk": "pages/4_Procurement_Risk.py",
+            "Last Mile": "pages/5_Last_Mile.py",
+            "Freight Audit": "pages/6_Freight_Audit.py",
+            "Manufacturing": "pages/7_Manufacturing.py",
+            "Returns Logistics": "pages/8_Returns_Logistics.py",
+            "Cross Dock": "pages/9_Cross_Dock.py",
+            "Omnichannel": "pages/10_Omnichannel.py"
+        }
+        st.switch_page(page_mapping[selected_module])
+
+    st.markdown("---")
+
+    # 🖥️ DISPLAY THE PRIMARY HOME CONTENT GRAPHICS LAYER
+    st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-title-text'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="quote-card-container">
+        <p class="calligraphy-text">
+            "A star wants to see himself rise to the top. <br/>
+            A leader wants to see those around him rise to the top."
+        </p>
+        <span class="calligraphy-author">— Simon Sinek</span>
+    </div>
+    """, unsafe_allow_html=True)
 
