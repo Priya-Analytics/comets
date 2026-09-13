@@ -55,7 +55,7 @@ st.components.v1.html("""
 </script>
 """, height=0, scrolling=False)
 
-# 🎨 INJECT OPTIMIZED ROW COMPRESSION CSS
+# 🎨 STYLE CONFIGURATION
 st.markdown("""
 <style>
     .stApp { background: transparent !important; }
@@ -75,27 +75,19 @@ st.markdown("""
         font-size: 28px;
         margin-bottom: 15px;
     }
-    
-    /* 🛠️ FORCE TOTAL VERTICAL GAP REMOVAL BETWEEN ROWS */
-    div[data-testid="stVerticalBlock"] > div {
-        margin-bottom: 0px !important;
-        padding-bottom: 0px !important;
-        margin-top: 0px !important;
-        padding-top: 0px !important;
+
+    /* 🛠️ FORCE TOTAL COMPRESSION ON ALL STREAMLIT CONTROLLERS */
+    div[data-testid="stVerticalBlock"] {
+        gap: 0rem !important;
     }
     
-    div[data-testid="stHorizontalBlock"] {
-        margin-bottom: 4px !important; /* Tiny micro-gap between rows */
-        gap: 6px !important; /* Horizontal gap between day containers */
-    }
-    
-    /* Popover configuration tweaks */
+    /* Style popover action buttons to look like clean numeric date grid blocks */
     div[data-testid="stPopover"] > button {
         width: 100% !important;
         background-color: #111827 !important;
         border: 1px solid #1F2937 !important;
         color: #E2E8F0 !important;
-        padding: 12px 5px !important;
+        padding: 10px 5px !important;
         border-radius: 6px !important;
         font-weight: bold !important;
         text-align: center !important;
@@ -110,7 +102,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 📋 LEFT TITLE HEADER
+# 📋 TITLE HEADER
 st.markdown('<div class="schedule-header">📅 Schedule</div>', unsafe_allow_html=True)
 
 # 🛰️ DYNAMIC REAL-TIME IST TELEMETRY ENGINE
@@ -135,10 +127,9 @@ st.components.v1.html("""
 """, height=80)
 
 st.markdown("---")
-
-# 📅 RENDER COMPRESSED CALENDAR MATRIX
 st.subheader("🗓️ Calendar Matrix View")
 
+# Initialize event memory storage bank mapping strings
 if "calendar_events" not in st.session_state:
     st.session_state["calendar_events"] = {}
 
@@ -147,17 +138,26 @@ cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
 month_days = cal.monthdayscalendar(now.year, now.month)
 day_names = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-# Day Headers
-c_headers = st.columns(7)
+# 🛠️ UNIFIED SINGLE COLUMN WORKSPACE MATRIX FILTER (Crushes vertical row gaps completely)
+# We map all days out sequentially inside one single block space to block layout distortions
+day_headers = st.columns(7)
 for idx, name in enumerate(day_names):
-    c_headers[idx].markdown(f"<b style='color:#94A3B8; text-align:center; display:block; margin-bottom: 10px;'>{name}</b>", unsafe_allow_html=True)
+    day_headers[idx].markdown(f"<b style='color:#94A3B8; text-align:center; display:block; margin-bottom:10px;'>{name}</b>", unsafe_allow_html=True)
 
-# Compact Row Loop Mapping Execution
+# Unroll the multi-week array data into a single sequence list array structure
+flattened_days = []
 for week in month_days:
-    c_days = st.columns(7)
-    for idx, day in enumerate(week):
+    for day in week:
+        flattened_days.append(day)
+
+# Chunk the layout grid data elements through clean row indices loops
+for chunk_idx in range(0, len(flattened_days), 7):
+    row_chunk = flattened_days[chunk_idx:chunk_idx+7]
+    grid_cols = st.columns(7)
+    
+    for idx, day in enumerate(row_chunk):
         if day == 0:
-            c_days[idx].markdown("<div style='color:#334155; text-align:center; padding:10px;'>•</div>", unsafe_allow_html=True)
+            grid_cols[idx].markdown("<div style='color:#334155; text-align:center; padding-top:8px;'>•</div>", unsafe_allow_html=True)
         else:
             day_key = f"day_{day}"
             has_event = day_key in st.session_state["calendar_events"] and st.session_state["calendar_events"][day_key].strip() != ""
@@ -165,7 +165,7 @@ for week in month_days:
             
             if day == now.day:
                 st.markdown('<div class="current-day-btn">', unsafe_allow_html=True)
-                with c_days[idx].popover(display_label, use_container_width=True):
+                with grid_cols[idx].popover(display_label, use_container_width=True):
                     st.markdown(f"#### 📝 Directives for Day {day} (Today)")
                     existing_text = st.session_state["calendar_events"].get(day_key, "")
                     updated_text = st.text_area("Log your events or notes:", value=existing_text, key=f"input_{day}")
@@ -174,7 +174,7 @@ for week in month_days:
                         st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
             else:
-                with c_days[idx].popover(display_label, use_container_width=True):
+                with grid_cols[idx].popover(display_label, use_container_width=True):
                     st.markdown(f"#### 📝 Directives for Day {day}")
                     existing_text = st.session_state["calendar_events"].get(day_key, "")
                     updated_text = st.text_area("Log your events or notes:", value=existing_text, key=f"input_{day}")
