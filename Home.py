@@ -8,6 +8,9 @@ st.set_page_config(page_title="comets | Space Exploration", layout="wide", page_
 # 🌌 INJECT VECTOR SPACE ACCENTS AND HIGH-CONTRAST COLORS MATCHING THE IMAGE
 st.markdown("""
 <style>
+    /* Google Fonts Calligraphy / Cursive font imports */
+    @import url('https://googleapis.com');
+
     /* Gradient base matching the deep purple space nebula atmosphere */
     .stApp {
         background: radial-gradient(circle at 70% 20%, #1c0a35 0%, #0d041a 50%, #05010c 100%) !important;
@@ -28,10 +31,10 @@ st.markdown("""
         border-right: 1px solid rgba(255, 0, 127, 0.2) !important;
     }
     
-    /* 🔒 SECURE LOGIN CONTAINER (Glow accents matching the neon planets) */
+    /* 🔒 SECURE LOGIN CONTAINER */
     div[data-testid="stForm"] {
         background: rgba(13, 4, 26, 0.8) !important;
-        border: 1px solid rgba(0, 212, 255, 0.25) !important; /* Neon Teal Accent Border */
+        border: 1px solid rgba(0, 212, 255, 0.25) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px;
         padding: 35px !important;
@@ -39,17 +42,15 @@ st.markdown("""
         margin: 8% auto !important;
         position: relative;
         z-index: 999;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 0, 127, 0.15); /* Soft pink neon glow shadow */
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 0, 127, 0.15);
     }
     
-    /* Text input overrides */
     .stTextInput>div>div>input {
         background-color: rgba(5, 1, 12, 0.7) !important;
         color: #FFFFFF !important;
         border: 1px solid rgba(0, 212, 255, 0.3) !important;
     }
     
-    /* Main titles styled like vector illustration headers */
     .main-title { 
         font-size: 46px; 
         font-weight: 900; 
@@ -67,11 +68,42 @@ st.markdown("""
         border-radius: 10px !important;
     }
     
-    /* Secondary headings styled like vector badges */
-    h3 {
-        color: #FF007F !important; /* Neon Hot Pink Category Headings */
+    /* 📜 MOTIVATIONAL PORTFOLIO QUOTE CARDS STYLING */
+    .quote-card-container {
+        background: rgba(26, 15, 50, 0.6) !important;
+        border: 1px solid rgba(0, 212, 255, 0.15) !important;
+        backdrop-filter: blur(15px) !important;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+    
+    .sinek-quote {
         font-family: 'Montserrat', sans-serif;
-        font-weight: 700 !important;
+        font-size: 20px;
+        color: #F8FAFC;
+        line-height: 1.5;
+    }
+    
+    .sinek-author {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        color: #00D4FF;
+        letter-spacing: 2px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-transform: uppercase;
+    }
+    
+    /* 🖊️ CALLIGRAPHY OVERRIDE STYLES MATCHING THE WRITING IMAGE */
+    .calligraphy-text {
+        font-family: 'Great Vibes', cursive, serif;
+        font-size: 48px;
+        color: #FFFFFF;
+        text-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+        line-height: 1.2;
+        padding: 10px 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -82,7 +114,6 @@ if "master_password" not in st.session_state: st.session_state["master_password"
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
 def secure_gate_protocol():
-    # PHASE A: NEW ACCOUNT SERVER CREATION SETUP
     if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
         with st.form("server_database_setup_form"):
             st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🚀 ROCKET ENGINE SETUP: INITIALIZE PORTAL PROFILE</p>", unsafe_allow_html=True)
@@ -102,11 +133,9 @@ def secure_gate_protocol():
                     st.error("Passwords do not match.")
         return False
         
-    # PHASE B: AUTHORIZED ACCOUNT SESSION ACTIVE
     if st.session_state["authenticated"]:
         return True
         
-    # PHASE C: GATEWAY PORTAL LOGIN FORM
     with st.form("security_access_gateway_form"):
         st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🔒 SECURE TERMINAL GATEWAY LOGIN</p>", unsafe_allow_html=True)
         input_user = st.text_input("Username:", key="login_user_input")
@@ -130,7 +159,6 @@ def secure_gate_protocol():
 
 # 🚀 RUN LIVE PLATFORM DASHBOARD IF SYSTEM IS FULLY AUTHORIZED
 if secure_gate_protocol():
-    # Sidebar navigation items
     st.sidebar.markdown("# 🚀 comets")
     st.sidebar.markdown(f"<p style='color:#00D4FF; font-size:11px;'>Mission Pilot: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
     st.sidebar.markdown("---")
@@ -145,13 +173,41 @@ if secure_gate_protocol():
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
 
+    # 📜 INTEGRATED MOTIVATIONAL PANEL SECTIONS
+    quote_col1, quote_col2 = st.columns(2, gap="large")
+    
+    with quote_col1:
+        st.markdown("""
+        <div class="quote-card-container">
+            <p class="sinek-quote">
+                "A star wants to see himself rise to the top. <br/>
+                <span style='color: #94A3B8;'>A leader wants to see those around him rise to the top."</span>
+            </p>
+            <p class="sinek-author">— Simon Sinek</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with quote_col2:
+        st.markdown("""
+        <div class="quote-card-container" style="border-color: rgba(255, 0, 127, 0.25);">
+            <p style="color: #94A3B8; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                ✍️ Strategic Muscle Memory Log
+            </p>
+            <p class="calligraphy-text">
+                Building up that Muscle Memory
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
     if uploaded_file is not None:
         try:
             custom_df = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
-            st.markdown(f"### 📂 Active Flight Scratchpad Data: `{uploaded_file.name}`")
+            st.subheader(f"📊 Active Flight Scratchpad Data: `{uploaded_file.name}`")
             st.dataframe(custom_df, use_container_width=True)
             custom_code = st.text_area("Python Script Box:", value="st.write(custom_df.describe())")
             if st.button("Execute Flight Logic Stream"):
                 exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
-            st.markdown("---")
-        except Exception as e: st.error(f"Failed to process manual file upload segment: {e}")
+        except Exception as e: 
+            st.error(f"Failed to process manual file upload segment: {e}")
