@@ -8,7 +8,7 @@ st.set_page_config(page_title="comets | Space Exploration", layout="wide", page_
 # 🌌 INJECT VECTOR SPACE ACCENTS AND HIGH-CONTRAST COLORS MATCHING THE IMAGE
 st.markdown("""
 <style>
-    /* Google Fonts Calligraphy / Cursive font imports */
+    /* Google Fonts Calligraphy / Cursive font imports matching your sample writing */
     @import url('https://googleapis.com');
 
     /* Gradient base matching the deep purple space nebula atmosphere */
@@ -23,7 +23,7 @@ st.markdown("""
         overflow-x: hidden;
     }
     
-    /* 🛠️ NARROW LEFT SIDEBAR MATCHING VIBRANT PURPLE SPACE PALETTE */
+    /* 🛠️ NARROW LEFT SIDEBAR PALETTE */
     [data-testid="stSidebar"] {
         min-width: 190px !important;
         max-width: 230px !important;
@@ -68,42 +68,37 @@ st.markdown("""
         border-radius: 10px !important;
     }
     
-    /* 📜 MOTIVATIONAL PORTFOLIO QUOTE CARDS STYLING */
+    /* 📜 MOTIVATIONAL PORTFOLIO QUOTE CONTAINER */
     .quote-card-container {
-        background: rgba(26, 15, 50, 0.6) !important;
-        border: 1px solid rgba(0, 212, 255, 0.15) !important;
+        background: rgba(26, 15, 50, 0.55) !important;
+        border: 1px solid rgba(255, 0, 127, 0.25) !important; /* Elegant neon-pink border accent */
         backdrop-filter: blur(15px) !important;
-        border-radius: 12px;
-        padding: 25px;
-        margin: 20px 0;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 14px;
+        padding: 35px;
+        margin: 25px 0;
+        max-width: 850px;
+        box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 0, 127, 0.1);
     }
     
-    .sinek-quote {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 20px;
-        color: #F8FAFC;
-        line-height: 1.5;
-    }
-    
-    .sinek-author {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 13px;
-        color: #00D4FF;
-        letter-spacing: 2px;
-        font-weight: bold;
-        margin-top: 10px;
-        text-transform: uppercase;
-    }
-    
-    /* 🖊️ CALLIGRAPHY OVERRIDE STYLES MATCHING THE WRITING IMAGE */
+    /* 🖊️ CALLIGRAPHY TYPOGRAPHY OVERRIDE RULES FOR SIMON SINEK'S QUOTE */
     .calligraphy-text {
         font-family: 'Great Vibes', cursive, serif;
-        font-size: 48px;
+        font-size: 46px;
         color: #FFFFFF;
-        text-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
-        line-height: 1.2;
-        padding: 10px 0;
+        text-shadow: 0 0 15px rgba(0, 212, 255, 0.5); /* Glowing cyan aura glow */
+        line-height: 1.3;
+        padding: 5px 0;
+    }
+    
+    .calligraphy-author {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        color: #FF007F; /* Neon pink author label signature */
+        letter-spacing: 3px;
+        font-weight: bold;
+        margin-top: 15px;
+        text-transform: uppercase;
+        display: block;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -173,20 +168,16 @@ if secure_gate_protocol():
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
 
-    # 📜 INTEGRATED MOTIVATIONAL PANEL SECTIONS
-    quote_col1 = st.columns(1, gap="large")
-    
-    with quote_col1:
-        st.markdown("""
-        <div class="quote-card-container" style="border-color: rgba(255, 0, 127, 0.25);">
-            <p style="color: #94A3B8; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
-               <p class="sinek-quote">
-                               "A star wants to see himself rise to the top. <br/>
-                               <span style='color: #94A3B8;'>A leader wants to see those around him rise to the top."</span>
-                           </p>
-                           <p class="sinek-author">— Simon Sinek</p>
-        </div>
-        """, unsafe_allow_html=True)
+    # 🖊️ SINGLE UNIFIED CONSOLE: SIMON SINEK'S LEADER QUOTE TRANSLATED INTO CURSIVE CALLIGRAPHY STYLE
+    st.markdown("""
+    <div class="quote-card-container">
+        <p class="calligraphy-text">
+            "A star wants to see himself rise to the top. <br/>
+            A leader wants to see those around him rise to the top."
+        </p>
+        <span class="calligraphy-author">— Simon Sinek</span>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
