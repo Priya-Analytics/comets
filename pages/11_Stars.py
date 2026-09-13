@@ -5,7 +5,7 @@ import streamlit as st
 import calendar
 from datetime import datetime
 
-st.set_page_config(page_title="Schedule & Streaks | comets", layout="wide")
+st.set_page_config(page_title="Schedule & SCM Telemetry | comets", layout="wide")
 
 # 🔒 SECURITY ACCESS GATE
 if "authenticated" not in st.session_state or not st.session_state["authenticated"]:
@@ -86,26 +86,28 @@ st.markdown("""
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
     }
     
-    /* 🟩 UNIQUE GIT-STYLE MATRIX STREAKS GRADIENT LEVEL COLORS */
-    .streak-grid-row {
+    /* 🟩 SCM SCENARIO BLOCK TELEMETRY CELLS COLORS */
+    .scm-row {
         display: flex;
-        gap: 5px;
-        margin-top: 8px;
-        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 6px;
     }
-    .cell {
-        width: 16px;
-        height: 16px;
-        border-radius: 3px;
-        transition: transform 0.2s;
+    .scm-cell {
+        width: 22px;
+        height: 22px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: bold;
+        color: rgba(255,255,255,0.7);
     }
-    .cell:hover { transform: scale(1.2); }
-    
-    .lvl-0 { background-color: #161b22; border: 1px solid rgba(255,255,255,0.02); } /* No Use */
-    .lvl-1 { background-color: #0e4429; } /* Light Use */
-    .lvl-2 { background-color: #006d3a; } /* Medium Use */
-    .lvl-3 { background-color: #26a641; } /* Heavy Use */
-    .lvl-4 { background-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; } /* Maximum Operations Use */
+    .s-none { background-color: #161b22; }
+    .s-sql { background-color: #0e4429; color: #38BDF8; }
+    .s-py { background-color: #006d3a; color: #A855F7; }
+    .s-bi { background-color: #26a641; color: #F59E0B; }
+    .s-ops { background-color: #38bdf8; color: #020306; box-shadow: 0 0 6px #38bdf8; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -122,7 +124,6 @@ st.components.v1.html("""
 <script>
     function runLiveIST() {
         const now = new Date();
-        // Stripped seconds configuration parameter array logic
         const timeParams = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true };
         const dateParams = { timeZone: 'Asia/Kolkata', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         
@@ -136,76 +137,85 @@ st.components.v1.html("""
 
 st.markdown("---")
 
-# 📅 RENDER DYNAMIC FULL MONTH CALENDAR SQUARE MATRIX
-st.subheader("🗓️ Calendar Matrix View")
+# 📅 RENDER DYNAMIC FULL MONTH CALENDAR SQUARE MATRIX WITH BUILT-IN PLANNER NOTEBOOK
+st.subheader("🗓️ Calendar Matrix & Planner Workspace")
+
+# Initialize calendar notes memory store dictionary objects
+if "planner_notes" not in st.session_state:
+    st.session_state["planner_notes"] = {}
+
 now = datetime.now()
 cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
 month_days = cal.monthdayscalendar(now.year, now.month)
 day_names = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
+# Main layout split into Calendar+Planner Grid on top, SCM telemetry on bottom
 # Render Day Header Titles
-cols = st.columns(7)
+c_headers = st.columns(7)
 for idx, name in enumerate(day_names):
-    cols[idx].markdown(f"<b style='color:#94A3B8;'>{name}</b>", unsafe_allow_html=True)
+    c_headers[idx].markdown(f"<b style='color:#94A3B8; text-align:center; display:block;'>{name}</b>", unsafe_allow_html=True)
 
+# Loop and render weeks
 for week in month_days:
-    cols = st.columns(7)
+    c_days = st.columns(7)
     for idx, day in enumerate(week):
         if day == 0:
-            cols[idx].markdown("<div style='color:#334155; text-align:center;'>•</div>", unsafe_allow_html=True)
+            c_days[idx].markdown("<div style='color:#334155; text-align:center; padding:10px;'>•</div>", unsafe_allow_html=True)
         elif day == now.day:
-            cols[idx].markdown(f"<div style='background:#1E3A8A; border:1px solid #38BDF8; border-radius:6px; padding:10px; text-align:center; color:#FFF; font-weight:bold;'>{day}</div>", unsafe_allow_html=True)
+            # Check if text note notes values exist in memory mapping strings
+            note_indicator = "📝" if f"day_{day}" in st.session_state["planner_notes"] and st.session_state["planner_notes"][f"day_{day}"].strip() != "" else ""
+            c_days[idx].markdown(f"<div style='background:#1E3A8A; border:1px solid #38BDF8; border-radius:6px; padding:10px; text-align:center; color:#FFF; font-weight:bold;'>{day} {note_indicator}</div>", unsafe_allow_html=True)
         else:
-            cols[idx].markdown(f"<div style='background:#111827; border:1px solid #1F2937; border-radius:6px; padding:10px; text-align:center; color:#E2E8F0;'>{day}</div>", unsafe_allow_html=True)
+            note_indicator = "📝" if f"day_{day}" in st.session_state["planner_notes"] and st.session_state["planner_notes"][f"day_{day}"].strip() != "" else ""
+            c_days[idx].markdown(f"<div style='background:#111827; border:1px solid #1F2937; border-radius:6px; padding:10px; text-align:center; color:#E2E8F0;'>{day} {note_indicator}</div>", unsafe_allow_html=True)
 
-# 📝 ➕ NEW PLANNER OPTION CONNECTED DIRECTLY TO CALENDAR
-st.markdown('<div class="widget-container">', unsafe_allow_html=True)
-st.subheader("📝 Daily Operations Planner")
-
-# Set up storage dictionary values inside the app runtime session scope memory
-if "planner_notes" not in st.session_state:
-    st.session_state["planner_notes"] = {}
-
-p_day = st.number_input("Select Day to Plan:", min_value=1, max_value=31, value=int(now.day))
+# 📝 INTEGRATED PLANNER CONTROLS (Tucked cleanly inside the Calendar View boundary space context)
+p_day = st.selectbox("🎯 Click Target Calendar Day to Plan / View Notes:", [d for w in month_days for d in w if d != 0], index=int(now.day)-1)
 plan_key = f"day_{p_day}"
 
-# Fetch existing data string values or fallback to empty context placeholder mapping
 existing_note = st.session_state["planner_notes"].get(plan_key, "")
-p_text = st.text_area(f"Input supply chain operations practice targets for Day {p_day}:", value=existing_note)
+p_text = st.text_input(label=f"Directives Log for Day {p_day}:", value=existing_note, placeholder="Type your daily practice targets here (e.g., Practiced Window Functions on Procurement page)...")
 
-if st.button("💾 Log Targets to Calendar Memory"):
+if st.button("💾 Save Planner Target"):
     st.session_state["planner_notes"][plan_key] = p_text
-    st.success(f"Operational directives for Day {p_day} logged successfully!")
-st.markdown('</div>', unsafe_allow_html=True)
+    st.success(f"DIRECTIVE: Operations log for Day {p_day} locked into calendar tracking nodes.")
+    st.rerun()
 
-# 🟩 UNIQUE GIT-STYLE MATRIX STREAKS AT BOTTOM PANEL (LIGHT TO DARK USAGE INTENSITY GRADIENT)
+st.markdown("---")
+
+# 🌐 REPLACED STREAKS MATRIX WITH LOGISTICS DRILL TELEMETRY MATRIX
 st.markdown('<div class="widget-container">', unsafe_allow_html=True)
-st.markdown("### ☄️ Activity Streaks Matrix")
-st.markdown("<p style='color:#94A3B8; font-size:13px;'>Usage density transitions from deep charcoal (idle) through dark green, bright green, and vibrant cyan based on daily script execution workloads.</p>", unsafe_allow_html=True)
+st.markdown("### ☄️ Supply Chain Operations Analytics Telemetry")
+st.markdown("<p style='color:#94A3B8; font-size:13px;'>Tracks completed drills categorized across structural core analyst domains instead of general green box grids.</p>", unsafe_allow_html=True)
 
-# Display color code legend guide map parameters
+# Legend matrix mapping parameters
 st.markdown("""
-<div style='display: flex; gap: 10px; align-items: center; margin-bottom: 15px; font-size: 11px; color: #94A3B8;'>
-    <span>Less</span>
-    <div class="cell lvl-0"></div>
-    <div class="cell lvl-1"></div>
-    <div class="cell lvl-2"></div>
-    <div class="cell lvl-3"></div>
-    <div class="cell lvl-4"></div>
-    <span>More</span>
+<div style='display: flex; gap: 15px; align-items: center; margin-bottom: 15px; font-size: 11px; color: #94A3B8; flex-wrap: wrap;'>
+    <div style='display:flex; align-items:center; gap:5px;'><div class="scm-cell s-none"></div> <span>Idle</span></div>
+    <div style='display:flex; align-items:center; gap:5px;'><div class="scm-cell s-sql">S</div> <span>SQL Auditing</span></div>
+    <div style='display:flex; align-items:center; gap:5px;'><div class="scm-cell s-py">P</div> <span>Python Scripts</span></div>
+    <div style='display:flex; align-items:center; gap:5px;'><div class="scm-cell s-bi">B</div> <span>Power BI Dashboards</span></div>
+    <div style='display:flex; align-items:center; gap:5px;'><div class="scm-cell s-ops">O</div> <span>Operations Report Done</span></div>
 </div>
 """, unsafe_allow_html=True)
 
-# Generate a sequential activity timeline matrix row (Simulating 52 days of practice progress history)
-st.markdown('<div class="streak-grid-row">', unsafe_allow_html=True)
-simulated_usage_levels = [
-    0,1,0,2,3,4,1,0,0,2,3,1,4,4,0,1,2,3,0,0,1,
-    2,4,3,1,0,2,2,3,4,1,0,1,3,4,0,2,1,0,4,3,2,
-    1,1,0,3,4,2,0,1,4,3
+# Generate 4 structural practice matrix tracking rows mapping out historical analyst review items
+t_cols = st.columns(4)
+domains = ["Demand Plan Nodes", "Warehouse Hub Nodes", "Freight Logistics Nodes", "Sourcing Nodes"]
+simulated_matrix = [
+    ["s-sql", "s-none", "s-py", "s-bi", "s-ops", "s-sql", "s-py", "s-bi", "s-none", "s-ops", "s-sql", "s-bi"],
+    ["s-none", "s-sql", "s-bi", "s-none", "s-py", "s-ops", "s-none", "s-sql", "s-bi", "s-py", "s-ops", "s-sql"],
+    ["s-bi", "s-py", "s-ops", "s-sql", "s-none", "s-bi", "s-py", "s-sql", "s-ops", "s-none", "s-py", "s-bi"],
+    ["s-sql", "s-none", "s-none", "s-bi", "s-py", "s-ops", "s-sql", "s-none", "s-py", "s-bi", "s-ops", "s-none"]
 ]
 
-for level in simulated_usage_levels:
-    st.markdown(f'<div class="cell lvl-{level}"></div>', unsafe_allow_html=True)
+for idx, dom_name in enumerate(domains):
+    with t_cols[idx]:
+        st.markdown(f"<span style='font-size:12px; color:#60A5FA; font-family:monospace;'>{dom_name}</span>", unsafe_allow_html=True)
+        st.markdown('<div class="scm-row">', unsafe_allow_html=True)
+        for cell_type in simulated_matrix[idx]:
+            char_tag = cell_type.split('-')[1][0].upper() if cell_type != "s-none" else "•"
 
-st.markdown('</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown(f'{char_tag}', unsafe_allow_html=True)
+st.markdown('', unsafe_allow_html=True)
+st.markdown('', unsafe_allow_html=True)
