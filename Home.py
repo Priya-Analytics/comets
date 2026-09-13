@@ -165,7 +165,7 @@ if secure_gate_protocol():
 
     # MAIN WORKSPACE HUB VIEWPORTS
     st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane </p>", unsafe_allow_html=True)
     st.markdown("---")
 
     # 🖊️ SINGLE UNIFIED CONSOLE: SIMON SINEK'S LEADER QUOTE TRANSLATED INTO CURSIVE CALLIGRAPHY STYLE
