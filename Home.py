@@ -60,6 +60,20 @@ st.markdown("""
         overflow-x: hidden;
     }
     
+    /* 🛠️ FORCE LOGIN FORM TO DISPLAY CENTERED OVER THE STARS BACKGROUND */
+    div[data-testid="stForm"] {
+        background: rgba(14, 20, 38, 0.85) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(20px) !important;
+        border-radius: 16px;
+        padding: 30px !important;
+        max-width: 500px;
+        margin: 10% auto !important;
+        position: relative;
+        z-index: 999;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    
     /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH OVERRIDE */
     [data-testid="stSidebar"] {
         min-width: 190px !important;
@@ -80,7 +94,7 @@ st.markdown("""
         margin-top: 15px;
     }
     
-    /* Live Users History Audit Board Panel CSS Wrapper */
+    /* Live Users History Audit Board Panel */
     .user-registry-box {
         background: rgba(14, 20, 38, 0.7) !important;
         border: 1px solid rgba(56, 189, 248, 0.2) !important;
@@ -131,16 +145,15 @@ if "active_user_history" not in st.session_state:
     st.session_state["active_user_history"] = ["System_Administrator", "Logistics_Core_Node"]
 
 def secure_gate_protocol():
-    # SCENARIO A: FIRST TIME RECONCILIATION SETUP PHASE
+    # PHASE A: FIRST TIME RECONCILIATION SETUP PHASE
     if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
-        # Wrap input controllers cleanly inside structural forms to destroy empty background blocks
         with st.form("server_database_setup_form"):
-            st.markdown("<p style='color:#38BDF8; font-family:monospace; font-size:13px;'>🛰️ SERVER INITIALIZATION: CONFIGURE SYSTEM PROFILE</p>", unsafe_allow_html=True)
-            setup_user = st.text_input("Create Station Username:")
-            setup_pass = st.text_input("Create Station Password:", type="password")
-            confirm_pass = st.text_input("Confirm Station Password:", type="password")
+            st.markdown("<p style='color:#38BDF8; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🛰️ SERVER INITIALIZATION SETUP</p>", unsafe_allow_html=True)
+            setup_user = st.text_input("Create Station Username:", key="init_user_input")
+            setup_pass = st.text_input("Create Station Password:", type="password", key="init_pass_input")
+            confirm_pass = st.text_input("Confirm Station Password:", type="password", key="init_conf_input")
             
-            if st.form_submit_button("🔐 Provision Account to Server Database", use_container_width=True):
+            if st.form_submit_button("🔐 Register to Server Database", use_container_width=True):
                 if setup_user.strip() == "":
                     st.error("Profile username validation fault: field cannot be blank.")
                 elif setup_pass == confirm_pass and setup_pass != "":
@@ -153,18 +166,18 @@ def secure_gate_protocol():
                         st.session_state["active_user_history"].append(clean_name)
                     st.rerun()
                 else:
-                    st.error("Verification exception: password matching configuration mismatch.")
+                    st.error("Verification exception: password configuration mismatch.")
         return False
         
-    # SCENARIO B: USER ID HANDSHAKE SECURED SUCCESSFULLY
+    # PHASE B: USER ID HANDSHAKE SECURED SUCCESSFULLY
     if st.session_state["authenticated"]:
         return True
         
-    # SCENARIO C: AUTHENTICATION LOCK SCREEN CONTROL PANEL
+    # PHASE C: AUTHENTICATION LOCK SCREEN CONTROL PANEL
     with st.form("security_access_gateway_form"):
-        st.markdown("<p style='color:#94A3B8; font-family:monospace; font-size:13px;'>🔒 NETWORK LOCK: VERIFY PORTAL KEYS</p>", unsafe_allow_html=True)
-        input_user = st.text_input("Username:")
-        input_pass = st.text_input("Password:", type="password")
+        st.markdown("<p style='color:#38BDF8; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🔒 SECURE TERMINAL GATEWAY LOGIN</p>", unsafe_allow_html=True)
+        input_user = st.text_input("Username:", key="login_user_input")
+        input_pass = st.text_input("Password:", type="password", key="login_pass_input")
         
         col_submit, col_wipe = st.columns(2)
         with col_submit:
@@ -177,7 +190,7 @@ def secure_gate_protocol():
                 else:
                     st.error("HANDSHAKE EXCEPTION: Invalid user credentials.")
         with col_wipe:
-            if st.form_submit_button("❓ Wipe Server Records", use_container_width=True):
+            if st.form_submit_button("❓ Reset Account Records", use_container_width=True):
                 st.session_state["master_username"] = None
                 st.session_state["master_password"] = None
                 st.session_state["authenticated"] = False
@@ -211,6 +224,7 @@ if secure_gate_protocol():
                 exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
             st.markdown("---")
         except Exception as e: st.error(f"Failed to process manual file upload segment: {e}")
+
     # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA
     st.markdown("""
     <div class="ceo-terminal">
