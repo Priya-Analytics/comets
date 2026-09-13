@@ -5,37 +5,67 @@ import random
 # Force strict cinematic wide-viewport configuration
 st.set_page_config(page_title="comets | Core Matrix Control", layout="wide", page_icon="☄️")
 
-# ☄️ HIGH-END GRAPHICAL INTERFACE OVERLAY OVERRIDES (CYBERPUNK GLASSMORPHISM)
+# 🌌 INJECT REAL-TIME TWINKLING NIGHT SKY & CRESCENT MOON BACKGROUND
 st.markdown("""
 <style>
+    /* Full Application Night Sky Base Layer CSS */
+    .stApp {
+        background: linear-gradient(to bottom, #050814 0%, #0c1326 70%, #17223b 100%) !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* 🌙 GLOWING CRESCENT MOON LAYER */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: 50px;
+        right: 80px;
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        box-shadow: 15px 12px 0px 0px #fef3c7;
+        filter: drop-shadow(0px 0px 20px rgba(254, 243, 199, 0.35));
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* 🌟 TWINKLING STARS ANIMATION MECHANICAL LOOPS */
+    @keyframes star-twinkle-loop {
+        0%, 100% { opacity: 0.2; transform: scale(0.9); }
+        50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .stApp::after {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        background-image: 
+            radial-gradient(1.5px 1.5px at 60px 90px, #ffffff, transparent),
+            radial-gradient(2px 2px at 190px 250px, #ffffff, transparent),
+            radial-gradient(1px 1px at 340px 110px, #93c5fd, transparent),
+            radial-gradient(2.5px 2.5px at 480px 410px, #ffffff, transparent),
+            radial-gradient(1.5px 1.5px at 620px 170px, #93c5fd, transparent),
+            radial-gradient(2px 2px at 800px 460px, #ffffff, transparent),
+            radial-gradient(1px 1px at 950px 310px, #ffffff, transparent),
+            radial-gradient(2.5px 2.5px at 1150px 150px, #93c5fd, transparent);
+        background-size: 500px 500px;
+        animation: star-twinkle-loop 5s ease-in-out infinite;
+    }
+    
+    html, body {
+        background-color: #050814 !important;
+        overflow-x: hidden;
+    }
+    
     /* 🛠️ NARROW LEFT SIDEBAR FOOTPRINT WIDTH OVERRIDE */
     [data-testid="stSidebar"] {
         min-width: 190px !important;
         max-width: 230px !important;
-    }
-    
-    /* 🔒 CLEAN ENTRY SECURITY GATEWAY CONTAINER */
-    .auth-terminal-box {
-        background: rgba(14, 20, 38, 0.85) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        backdrop-filter: blur(20px) !important;
-        border-radius: 16px;
-        padding: 35px !important;
-        max-width: 550px;
-        margin: 8% auto !important;
-        position: relative;
-        z-index: 999;
-    }
-    
-    .terminal-header {
-        font-family: 'Courier New', monospace;
-        color: #94a3b8;
-        font-size: 13px;
-        letter-spacing: 2px;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 8px;
+        background-color: rgba(4, 6, 12, 0.96) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
 
     /* Top-Secret Encrypted CEO container card */
@@ -48,6 +78,18 @@ st.markdown("""
         position: relative;
         z-index: 10;
         margin-top: 15px;
+    }
+    
+    /* Live Users History Audit Board Panel CSS Wrapper */
+    .user-registry-box {
+        background: rgba(14, 20, 38, 0.7) !important;
+        border: 1px solid rgba(56, 189, 248, 0.2) !important;
+        backdrop-filter: blur(16px) !important;
+        border-radius: 14px !important;
+        padding: 22px !important;
+        margin-top: 25px;
+        position: relative;
+        z-index: 10;
     }
     
     .ceo-title {
@@ -79,83 +121,74 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 🔒 HIGH-SECURITY SERVER DATABASE EMULATION LAYER (USERNAME + PASSWORD)
+# 🔒 ACCOUNT STORAGE INITIALIZATION DATA NODES
 if "master_username" not in st.session_state: st.session_state["master_username"] = None
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
 
-# Persistent server memory log array for usernames
-if "registered_users" not in st.session_state:
-    st.session_state["registered_users"] = ["System_Admin", "Logistics_Core"]
+# Session tracking memory arrays for concurrent and previous users
+if "active_user_history" not in st.session_state:
+    st.session_state["active_user_history"] = ["System_Administrator", "Logistics_Core_Node"]
 
 def secure_gate_protocol():
-    # PHASE A: FIRST-TIME SERVER DATABASE INITIALIZATION
+    # SCENARIO A: FIRST TIME RECONCILIATION SETUP PHASE
     if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
-        st.markdown('<div class="auth-terminal-box">', unsafe_allow_html=True)
-        st.markdown('<div class="terminal-header">🛰️ SERVER SETUP: CONFIGURE ACCOUNT STORAGE</div>', unsafe_allow_html=True)
-        
-        setup_user = st.text_input("Create Your Unique Username:", key="reg_user_init")
-        setup_pass = st.text_input("Create Your Private Password:", type="password", key="reg_pass_init")
-        confirm_pass = st.text_input("Confirm Private Password:", type="password", key="reg_pass_conf")
-        
-        if st.button("🔐 Register to Server Database", use_container_width=True):
-            if setup_user.strip() == "":
-                st.error("Username cannot be blank!")
-            elif setup_pass == confirm_pass and setup_pass != "":
-                clean_user = setup_user.strip()
-                st.session_state["master_username"] = clean_user
-                st.session_state["master_password"] = setup_pass
-                st.session_state["authenticated"] = True
-                
-                if clean_user not in st.session_state["registered_users"]:
-                    st.session_state["registered_users"].append(clean_user)
+        # Wrap input controllers cleanly inside structural forms to destroy empty background blocks
+        with st.form("server_database_setup_form"):
+            st.markdown("<p style='color:#38BDF8; font-family:monospace; font-size:13px;'>🛰️ SERVER INITIALIZATION: CONFIGURE SYSTEM PROFILE</p>", unsafe_allow_html=True)
+            setup_user = st.text_input("Create Station Username:")
+            setup_pass = st.text_input("Create Station Password:", type="password")
+            confirm_pass = st.text_input("Confirm Station Password:", type="password")
+            
+            if st.form_submit_button("🔐 Provision Account to Server Database", use_container_width=True):
+                if setup_user.strip() == "":
+                    st.error("Profile username validation fault: field cannot be blank.")
+                elif setup_pass == confirm_pass and setup_pass != "":
+                    clean_name = setup_user.strip()
+                    st.session_state["master_username"] = clean_name
+                    st.session_state["master_password"] = setup_pass
+                    st.session_state["authenticated"] = True
                     
-                st.success("Account registered securely. Launching...")
-                st.rerun()
-            else:
-                st.error("HANDSHAKE FAILS: Password fields do not match.")
-        st.markdown('</div>', unsafe_allow_html=True)
+                    if clean_name not in st.session_state["active_user_history"]:
+                        st.session_state["active_user_history"].append(clean_name)
+                    st.rerun()
+                else:
+                    st.error("Verification exception: password matching configuration mismatch.")
         return False
         
-    # PHASE B: AUTHORIZED USER SESSION ALREADY ACTIVE
+    # SCENARIO B: USER ID HANDSHAKE SECURED SUCCESSFULLY
     if st.session_state["authenticated"]:
         return True
         
-    # PHASE C: THE QUANTUM TERMINAL INTERFACE LOGIN FORM
-    st.markdown('<div class="auth-terminal-box">', unsafe_allow_html=True)
-    st.markdown('<div class="terminal-header">🔒 ACCESS SHIELD: ACCOUNT VERIFICATION MANDATORY</div>', unsafe_allow_html=True)
-    
-    input_user = st.text_input("Enter Username:", key="login_user_node")
-    input_pass = st.text_input("Enter Password:", type="password", key="login_pass_node")
-    
-    col_unlock, col_reset = st.columns(2)
-    with col_unlock:
-        if st.button("⚡ Verify Profile", use_container_width=True):
-            if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
-                st.session_state["authenticated"] = True
-                
-                if input_user not in st.session_state["registered_users"]:
-                    st.session_state["registered_users"].append(input_user)
-                    
+    # SCENARIO C: AUTHENTICATION LOCK SCREEN CONTROL PANEL
+    with st.form("security_access_gateway_form"):
+        st.markdown("<p style='color:#94A3B8; font-family:monospace; font-size:13px;'>🔒 NETWORK LOCK: VERIFY PORTAL KEYS</p>", unsafe_allow_html=True)
+        input_user = st.text_input("Username:")
+        input_pass = st.text_input("Password:", type="password")
+        
+        col_submit, col_wipe = st.columns(2)
+        with col_submit:
+            if st.form_submit_button("⚡ Verify Profile Token", use_container_width=True):
+                if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
+                    st.session_state["authenticated"] = True
+                    if input_user not in st.session_state["active_user_history"]:
+                        st.session_state["active_user_history"].append(input_user)
+                    st.rerun()
+                else:
+                    st.error("HANDSHAKE EXCEPTION: Invalid user credentials.")
+        with col_wipe:
+            if st.form_submit_button("❓ Wipe Server Records", use_container_width=True):
+                st.session_state["master_username"] = None
+                st.session_state["master_password"] = None
+                st.session_state["authenticated"] = False
                 st.rerun()
-            else:
-                st.error("🛑 ACCESS DENIED: Invalid User or Password.")
-    with col_reset:
-        if st.button("❓ Reset Server Database", use_container_width=True):
-            st.session_state["master_username"] = None
-            st.session_state["master_password"] = None
-            st.session_state["authenticated"] = False
-            st.warning("Server account records wiped. Re-initializing setup...")
-            st.rerun()
-            
-    st.markdown('</div>', unsafe_allow_html=True)
     return False
 
-# 🚀 RUN LIVE PLATFORM DASHBOARD IF BOTH PARAMETERS MATCH
+# 🚀 RUN LIVE PLATFORM DASHBOARD IF SYSTEM IS FULLY AUTHORIZED
 if secure_gate_protocol():
-    # Narrow sidebar configuration
+    # Sidebar navigation items
     st.sidebar.markdown("# ☄️ comets")
-    st.sidebar.markdown(f"<p style='color:#38BDF8; font-size:11px;'>Active Session: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
+    st.sidebar.markdown(f"<p style='color:#38BDF8; font-size:11px;'>Session Holder: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
     st.sidebar.markdown("---")
     uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
     st.sidebar.markdown("---")
@@ -163,7 +196,7 @@ if secure_gate_protocol():
         st.session_state["authenticated"] = False
         st.rerun()
 
-    # MAIN WORKSPACE HEADER VIEWPORTS
+    # MAIN WORKSPACE HUB VIEWPORTS
     st.markdown("<h1 class='main-title'>☄️ comets: Orbit Control Center</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
@@ -178,7 +211,6 @@ if secure_gate_protocol():
                 exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
             st.markdown("---")
         except Exception as e: st.error(f"Failed to process manual file upload segment: {e}")
-
     # 🔒 TOP-SECRET: HIDDEN CEO QUOTES TERMINAL AREA
     st.markdown("""
     <div class="ceo-terminal">
@@ -205,3 +237,18 @@ if secure_gate_protocol():
         st.rerun()
         
     st.markdown(f'<div class="quote-box">{st.session_state["current_quote"]}</div>', unsafe_allow_html=True)
+    st.markdown("---")
+
+    # 💾 LIVE MONITOR TERMINAL PANEL: ACCESS AND SESSION RECORDS LOGS
+    st.markdown('<div class="user-registry-box">', unsafe_allow_html=True)
+    st.markdown("<h4 style='color:#38BDF8; font-family:monospace; font-weight:bold; margin-bottom:5px;'>📊 IDENTITY DATABASE AUDIT METRICS</h4>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#94A3B8; font-size:12px; margin-bottom:15px;'>Reviewing current active sessions and previous log accounts validated through system core nodes.</p>", unsafe_allow_html=True)
+    
+    # Loop over user session memories and map icons cleanly onto screen
+    for user_profile in st.session_state["active_user_history"]:
+        if user_profile == st.session_state["master_username"]:
+            st.markdown(f"👤 <b style='color:#FFFFFF;'>{user_profile}</b> <span style='color:#10B981; font-size:12px; font-family:monospace;'>[CURRENT ACTIVE NODE]</span>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"👤 <span style='color:#94A3B8;'>{user_profile}</span> <span style='color:#64748B; font-size:11px; font-family:monospace;'>[HISTORICAL LOG RECORDED]</span>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
