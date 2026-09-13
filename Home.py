@@ -34,7 +34,7 @@ st.markdown("""
     /* 🔒 SECURE LOGIN CONTAINER */
     div.login-form-wrapper > div[data-testid="stForm"] {
         background: rgba(13, 4, 26, 0.85) !important;
-        border: 1px solid rgba(0, 212, 255, 0.25) !important; /* Neon Teal Accent Border */
+        border: 1px solid rgba(0, 212, 255, 0.25) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 16px;
         padding: 35px !important;
@@ -57,7 +57,16 @@ st.markdown("""
         text-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 25px rgba(0, 212, 255, 0.3);
         letter-spacing: 1px;
         position: relative; 
-        z-index: 10; 
+        z-index: 10;
+        text-align: center;
+        margin-top: 30px;
+    }
+    
+    .sub-title-text {
+        color: #94A3B8; 
+        font-size: 16px; 
+        text-align: center;
+        margin-bottom: 25px;
     }
     
     div[data-testid="stFileUploaderDropzone"] {
@@ -69,7 +78,7 @@ st.markdown("""
     /* 📜 MOTIVATIONAL PORTFOLIO QUOTE CONTAINER */
     .quote-card-container {
         background: rgba(26, 15, 50, 0.55) !important;
-        border: 1px solid rgba(255, 0, 127, 0.25) !important; /* Elegant neon-pink border accent */
+        border: 1px solid rgba(255, 0, 127, 0.25) !important;
         backdrop-filter: blur(15px) !important;
         border-radius: 14px;
         padding: 35px;
@@ -83,7 +92,7 @@ st.markdown("""
         font-family: 'Great Vibes', cursive, serif;
         font-size: 46px;
         color: #FFFFFF;
-        text-shadow: 0 0 15px rgba(0, 212, 255, 0.5); /* Glowing cyan aura glow */
+        text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
         line-height: 1.3;
         padding: 5px 0;
         text-align: center;
@@ -92,7 +101,7 @@ st.markdown("""
     .calligraphy-author {
         font-family: 'Montserrat', sans-serif;
         font-size: 13px;
-        color: #FF007F; /* Neon pink author label signature */
+        color: #FF007F;
         letter-spacing: 3px;
         font-weight: bold;
         margin-top: 15px;
@@ -114,7 +123,11 @@ def secure_gate_protocol():
     if st.session_state["authenticated"]:
         return True
 
-    # 🖊️ ALWAYS DISPLAY SIMON SINEK'S LEADER QUOTE TRANSLATED INTO CURSIVE CALLIGRAPHY STYLE ON TOP
+    # 🚀 HEADER WORDS BROUGHT DIRECTLY INTO THE SIGN IN PORTAL PAGE LAYOUT
+    st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-title-text'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
+
+    # 🖊️ SIMON SINEK'S CALLIGRAPHY QUOTE
     st.markdown("""
     <div class="quote-card-container">
         <p class="calligraphy-text">
@@ -133,11 +146,11 @@ def secure_gate_protocol():
                 st.session_state["show_login_form"] = True
                 st.rerun()
                 
-    # EXPAND REQUISITE FORM MODULES ONLY IF THE BUTTON IS CLICKED
+    # EXPAND INPUT MODULES ONLY IF SIGN IN BUTTON IS TRIGGERED
     if st.session_state["show_login_form"]:
         st.markdown('<div class="login-form-wrapper">', unsafe_allow_html=True)
         
-        # SYSTEM CONTEXT A: FIRST-TIME PLATFORM SYSTEM ACCOUNT INITIALIZATION
+        # FIRST-TIME ACCOUNT SECTOR SETUP
         if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
             with st.form("server_database_setup_form"):
                 st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🚀 ROCKET ENGINE SETUP: INITIALIZE PORTAL PROFILE</p>", unsafe_allow_html=True)
@@ -154,7 +167,9 @@ def secure_gate_protocol():
                             st.session_state["master_username"] = setup_user.strip()
                             st.session_state["master_password"] = setup_pass
                             st.session_state["authenticated"] = True
-                            st.rerun()
+                            
+                            # REDIRECT PROTOCOL ACCELERATION: Switch directly to the Stars Subpage memory location hook
+                            st.switch_page("pages/11_Stars.py")
                         else:
                             st.error("Passwords do not match.")
                 with col_close1:
@@ -162,7 +177,7 @@ def secure_gate_protocol():
                         st.session_state["show_login_form"] = False
                         st.rerun()
                         
-        # SYSTEM CONTEXT B: SECURE DUAL PARAMETER SIGN IN PORTAL FORM
+        # STANDARD SECURITY PORTAL ACCESS CHALLENGE
         else:
             with st.form("security_access_gateway_form"):
                 st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🔒 SECURE TERMINAL GATEWAY LOGIN</p>", unsafe_allow_html=True)
@@ -174,7 +189,9 @@ def secure_gate_protocol():
                     if st.form_submit_button("⚡ Verify Token", use_container_width=True):
                         if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
                             st.session_state["authenticated"] = True
-                            st.rerun()
+                            
+                            # REDIRECT PROTOCOL ACCELERATION: Open Stars page directly
+                            st.switch_page("pages/11_Stars.py")
                         else:
                             st.error("Invalid user credentials.")
                 with col_wipe:
@@ -192,9 +209,8 @@ def secure_gate_protocol():
         st.markdown('</div>', unsafe_allow_html=True)
     return False
 
-# 🚀 RUN LIVE PLATFORM DASHBOARD IF SYSTEM IS FULLY AUTHORIZED
+# FALLBACK FOR SIDEBAR ACTION MANIFEST NAVIGATION SESSIONS (CONTINUED)
 if secure_gate_protocol():
-    # Sidebar navigation items
     st.sidebar.markdown("# 🚀 comets")
     st.sidebar.markdown(f"<p style='color:#00D4FF; font-size:11px;'>Mission Pilot: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
     st.sidebar.markdown("---")
@@ -205,18 +221,6 @@ if secure_gate_protocol():
         st.session_state["show_login_form"] = False
         st.rerun()
 
-    # MAIN WORKSPACE HUB VIEWPORTS
-    st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
-    st.markdown("---")
+    # If the user manually navigates back to Home page after authentication, redirect them immediately to keep them on the Stars workspace
+    st.switch_page("pages/11_Stars.py")
 
-    if uploaded_file is not None:
-        try:
-            custom_df = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
-            st.subheader(f"📊 Active Flight Scratchpad Data: `{uploaded_file.name}`")
-            st.dataframe(custom_df, use_container_width=True)
-            custom_code = st.text_area("Python Script Box:", value="st.write(custom_df.describe())")
-            if st.button("Execute Flight Logic Stream"):
-                exec(custom_code, {"custom_df": custom_df, "pd": pd, "st": st})
-        except Exception as e: 
-            st.error(f"Failed to process manual file upload segment: {e}")
