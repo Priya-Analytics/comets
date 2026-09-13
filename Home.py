@@ -32,16 +32,14 @@ st.markdown("""
     }
     
     /* 🔒 SECURE LOGIN CONTAINER */
-    div[data-testid="stForm"] {
-        background: rgba(13, 4, 26, 0.8) !important;
-        border: 1px solid rgba(0, 212, 255, 0.25) !important;
+    div.login-form-wrapper > div[data-testid="stForm"] {
+        background: rgba(13, 4, 26, 0.85) !important;
+        border: 1px solid rgba(0, 212, 255, 0.25) !important; /* Neon Teal Accent Border */
         backdrop-filter: blur(20px) !important;
         border-radius: 16px;
         padding: 35px !important;
         max-width: 500px;
-        margin: 8% auto !important;
-        position: relative;
-        z-index: 999;
+        margin: 20px auto !important;
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 0, 127, 0.15);
     }
     
@@ -75,7 +73,7 @@ st.markdown("""
         backdrop-filter: blur(15px) !important;
         border-radius: 14px;
         padding: 35px;
-        margin: 25px 0;
+        margin: 25px auto !important;
         max-width: 850px;
         box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 0, 127, 0.1);
     }
@@ -88,6 +86,7 @@ st.markdown("""
         text-shadow: 0 0 15px rgba(0, 212, 255, 0.5); /* Glowing cyan aura glow */
         line-height: 1.3;
         padding: 5px 0;
+        text-align: center;
     }
     
     .calligraphy-author {
@@ -99,6 +98,7 @@ st.markdown("""
         margin-top: 15px;
         text-transform: uppercase;
         display: block;
+        text-align: center;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -107,68 +107,14 @@ st.markdown("""
 if "master_username" not in st.session_state: st.session_state["master_username"] = None
 if "master_password" not in st.session_state: st.session_state["master_password"] = None
 if "authenticated" not in st.session_state: st.session_state["authenticated"] = False
+if "show_login_form" not in st.session_state: st.session_state["show_login_form"] = False
 
+# Function to run authentication mechanics
 def secure_gate_protocol():
-    if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
-        with st.form("server_database_setup_form"):
-            st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🚀 ROCKET ENGINE SETUP: INITIALIZE PORTAL PROFILE</p>", unsafe_allow_html=True)
-            setup_user = st.text_input("Create Station Username:", key="init_user_input")
-            setup_pass = st.text_input("Create Station Password:", type="password", key="init_pass_input")
-            confirm_pass = st.text_input("Confirm Station Password:", type="password", key="init_conf_input")
-            
-            if st.form_submit_button("🚀 Launch & Register Account", use_container_width=True):
-                if setup_user.strip() == "":
-                    st.error("Username cannot be blank.")
-                elif setup_pass == confirm_pass and setup_pass != "":
-                    st.session_state["master_username"] = setup_user.strip()
-                    st.session_state["master_password"] = setup_pass
-                    st.session_state["authenticated"] = True
-                    st.rerun()
-                else:
-                    st.error("Passwords do not match.")
-        return False
-        
     if st.session_state["authenticated"]:
         return True
-        
-    with st.form("security_access_gateway_form"):
-        st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🔒 SECURE TERMINAL GATEWAY LOGIN</p>", unsafe_allow_html=True)
-        input_user = st.text_input("Username:", key="login_user_input")
-        input_pass = st.text_input("Password:", type="password", key="login_pass_input")
-        
-        col_submit, col_wipe = st.columns(2)
-        with col_submit:
-            if st.form_submit_button("⚡ Verify Profile Token", use_container_width=True):
-                if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
-                    st.session_state["authenticated"] = True
-                    st.rerun()
-                else:
-                    st.error("Invalid user credentials.")
-        with col_wipe:
-            if st.form_submit_button("❓ Reset Account Records", use_container_width=True):
-                st.session_state["master_username"] = None
-                st.session_state["master_password"] = None
-                st.session_state["authenticated"] = False
-                st.rerun()
-    return False
 
-# 🚀 RUN LIVE PLATFORM DASHBOARD IF SYSTEM IS FULLY AUTHORIZED
-if secure_gate_protocol():
-    st.sidebar.markdown("# 🚀 comets")
-    st.sidebar.markdown(f"<p style='color:#00D4FF; font-size:11px;'>Mission Pilot: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
-    st.sidebar.markdown("---")
-    uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
-    st.sidebar.markdown("---")
-    if st.sidebar.button("🔒 Secure Cockpit / Exit", use_container_width=True):
-        st.session_state["authenticated"] = False
-        st.rerun()
-
-    # MAIN WORKSPACE HUB VIEWPORTS
-    st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane </p>", unsafe_allow_html=True)
-    st.markdown("---")
-
-    # 🖊️ SINGLE UNIFIED CONSOLE: SIMON SINEK'S LEADER QUOTE TRANSLATED INTO CURSIVE CALLIGRAPHY STYLE
+    # 🖊️ ALWAYS DISPLAY SIMON SINEK'S LEADER QUOTE TRANSLATED INTO CURSIVE CALLIGRAPHY STYLE ON TOP
     st.markdown("""
     <div class="quote-card-container">
         <p class="calligraphy-text">
@@ -179,6 +125,89 @@ if secure_gate_protocol():
     </div>
     """, unsafe_allow_html=True)
 
+    # 🚀 INTERACTIVE SIGN IN TRIGGER BUTTON (BELOW THE QUOTE)
+    if not st.session_state["show_login_form"]:
+        col_btn_l, col_btn_mid, col_btn_r = st.columns([0.35, 0.30, 0.35])
+        with col_btn_mid:
+            if st.button("🚀 Access Secure Terminal / Sign In", use_container_width=True):
+                st.session_state["show_login_form"] = True
+                st.rerun()
+                
+    # EXPAND REQUISITE FORM MODULES ONLY IF THE BUTTON IS CLICKED
+    if st.session_state["show_login_form"]:
+        st.markdown('<div class="login-form-wrapper">', unsafe_allow_html=True)
+        
+        # SYSTEM CONTEXT A: FIRST-TIME PLATFORM SYSTEM ACCOUNT INITIALIZATION
+        if st.session_state["master_password"] is None or st.session_state["master_username"] is None:
+            with st.form("server_database_setup_form"):
+                st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🚀 ROCKET ENGINE SETUP: INITIALIZE PORTAL PROFILE</p>", unsafe_allow_html=True)
+                setup_user = st.text_input("Create Station Username:", key="init_user_input")
+                setup_pass = st.text_input("Create Station Password:", type="password", key="init_pass_input")
+                confirm_pass = st.text_input("Confirm Station Password:", type="password", key="init_conf_input")
+                
+                col_sub1, col_close1 = st.columns([0.7, 0.3])
+                with col_sub1:
+                    if st.form_submit_button("🚀 Launch & Register Account", use_container_width=True):
+                        if setup_user.strip() == "":
+                            st.error("Username cannot be blank.")
+                        elif setup_pass == confirm_pass and setup_pass != "":
+                            st.session_state["master_username"] = setup_user.strip()
+                            st.session_state["master_password"] = setup_pass
+                            st.session_state["authenticated"] = True
+                            st.rerun()
+                        else:
+                            st.error("Passwords do not match.")
+                with col_close1:
+                    if st.form_submit_button("✖️ Close"):
+                        st.session_state["show_login_form"] = False
+                        st.rerun()
+                        
+        # SYSTEM CONTEXT B: SECURE DUAL PARAMETER SIGN IN PORTAL FORM
+        else:
+            with st.form("security_access_gateway_form"):
+                st.markdown("<p style='color:#00D4FF; font-family:monospace; font-size:13px; font-weight:bold; text-align:center;'>🔒 SECURE TERMINAL GATEWAY LOGIN</p>", unsafe_allow_html=True)
+                input_user = st.text_input("Username:", key="login_user_input")
+                input_pass = st.text_input("Password:", type="password", key="login_pass_input")
+                
+                col_submit, col_wipe, col_close2 = st.columns([0.4, 0.4, 0.2])
+                with col_submit:
+                    if st.form_submit_button("⚡ Verify Token", use_container_width=True):
+                        if input_user == st.session_state["master_username"] and input_pass == st.session_state["master_password"]:
+                            st.session_state["authenticated"] = True
+                            st.rerun()
+                        else:
+                            st.error("Invalid user credentials.")
+                with col_wipe:
+                    if st.form_submit_button("❓ Reset Records", use_container_width=True):
+                        st.session_state["master_username"] = None
+                        st.session_state["master_password"] = None
+                        st.session_state["authenticated"] = False
+                        st.session_state["show_login_form"] = False
+                        st.rerun()
+                with col_close2:
+                    if st.form_submit_button("✖️"):
+                        st.session_state["show_login_form"] = False
+                        st.rerun()
+                        
+        st.markdown('</div>', unsafe_allow_html=True)
+    return False
+
+# 🚀 RUN LIVE PLATFORM DASHBOARD IF SYSTEM IS FULLY AUTHORIZED
+if secure_gate_protocol():
+    # Sidebar navigation items
+    st.sidebar.markdown("# 🚀 comets")
+    st.sidebar.markdown(f"<p style='color:#00D4FF; font-size:11px;'>Mission Pilot: <b>{st.session_state['master_username']}</b></p>", unsafe_allow_html=True)
+    st.sidebar.markdown("---")
+    uploaded_file = st.sidebar.file_uploader(label="", type=["csv", "xlsx"], label_visibility="collapsed")
+    st.sidebar.markdown("---")
+    if st.sidebar.button("🔒 Secure Cockpit / Exit", use_container_width=True):
+        st.session_state["authenticated"] = False
+        st.session_state["show_login_form"] = False
+        st.rerun()
+
+    # MAIN WORKSPACE HUB VIEWPORTS
+    st.markdown("<h1 class='main-title'>🚀 comets: Space Exploring Hub</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#94A3B8; font-size:15px;'>Personal Supply Chain & Logistics Control Plane Sandbox Environment</p>", unsafe_allow_html=True)
     st.markdown("---")
 
     if uploaded_file is not None:
